@@ -244,7 +244,6 @@
                 </div>
 
                 <div class="flex flex-wrap items-center justify-center gap-2 pt-2">
-                    <button onclick="toggleFullscreen()" class="bg-purple-950 border border-cempasuchil/50 text-oro text-xs px-3 py-2 rounded-xl flex items-center space-x-2"><i class="fa-solid fa-expand"></i><span>Pantalla completa</span></button>
                     <button onclick="testAudio()" class="bg-purple-950 border border-oro/60 text-white text-xs px-3 py-2 rounded-xl">Probar sonidos</button>
                     <button id="btn-music-toggle" onclick="toggleMusic()" class="bg-purple-950 border border-cempasuchil/50 text-oro text-xs px-3 py-2 rounded-xl flex items-center space-x-2">
                         <i id="music-icon" class="fa-solid fa-music"></i>
@@ -787,11 +786,27 @@
 
         const keys = { left: false, right: false, jump: false, bark: false };
 
-                function exitGameToApp() {
+        let isGameStopped = false;
+        let gameLoopId = null;
+
+        function stopAllGame() {
+            isGameStopped = true;
+            gameState = 'STOPPED';
+            try {
+                if (gameLoopId) {
+                    cancelAnimationFrame(gameLoopId);
+                    gameLoopId = null;
+                }
+            } catch (e) {}
             try {
                 if (musicAudio) {
                     musicAudio.pause();
                     musicAudio.currentTime = 0;
+                }
+                const lAudio = document.getElementById('llorona-audio');
+                if (lAudio) {
+                    lAudio.pause();
+                    lAudio.currentTime = 0;
                 }
                 if (audioCtx && audioCtx.state !== 'closed') {
                     audioCtx.suspend().catch(() => {});
@@ -800,6 +815,10 @@
                     window.speechSynthesis.cancel();
                 }
             } catch (e) {}
+        }
+
+        function exitGameToApp() {
+            stopAllGame();
             if (document.fullscreenElement || document.webkitFullscreenElement) {
                 try {
                     (document.exitFullscreen || document.webkitExitFullscreen).call(document);
@@ -811,6 +830,12 @@
                 window.history.back();
             }
         }
+
+        window.addEventListener('message', (e) => {
+            if (e.data && (e.data.type === 'STOP_GAME' || e.data.type === 'EXIT_GAME')) {
+                stopAllGame();
+            }
+        });
 
         function isTouchDevice() {
             return ('ontouchstart' in window) ||
@@ -845,6 +870,9 @@
                 if (req && !document.fullscreenElement && !document.webkitFullscreenElement) {
                     const p = req.call(el);
                     if (p && p.catch) p.catch(() => {});
+                }
+                if (window.parent && window.parent !== window) {
+                    window.parent.postMessage({ type: 'REQUEST_FULLSCREEN' }, '*');
                 }
                 // En celulares, intentar fijar la orientación horizontal
                 if (window.matchMedia('(pointer: coarse)').matches && screen.orientation && screen.orientation.lock) {
@@ -1050,10 +1078,14 @@
         }
 
         function startGame() {
+            isGameStopped = false;
             initAudio();
             startBackgroundMusic();
             unlockLloronaAudio();
             goFullscreen();
+            if (window.parent && window.parent !== window) {
+                window.parent.postMessage({ type: 'REQUEST_FULLSCREEN' }, '*');
+            }
             score = 0; lives = 3;
             document.getElementById('screen-start').classList.add('hidden');
             document.getElementById('hud-overlay').classList.remove('hidden');
@@ -1063,6 +1095,9 @@
 
             loadLevel(0); // si hay diálogo inicial, él pone DIALOGUE_PAUSE
             resizeCanvas();
+            if (!gameLoopId) {
+                gameLoop();
+            }
         }
 
         function retryCurrentLevel() {
@@ -1556,15 +1591,24 @@
 
         // BUCLE PRINCIPAL
         function gameLoop() {
+            if (isGameStopped) return;
             update();
             render();
-            requestAnimationFrame(gameLoop);
+            gameLoopId = requestAnimationFrame(gameLoop);
         }
 
         window.onload = () => {
             gameLoop();
             resizeCanvas();
+            if (window.parent && window.parent !== window) {
+                const rBtn = document.getElementById('btn-game-return');
+                if (rBtn) rBtn.style.display = 'none';
+            }
         };
+
+        // Activar pantalla completa automáticamente al primer toque/clic
+        window.addEventListener('touchstart', () => goFullscreen(), { once: true });
+        window.addEventListener('click', () => goFullscreen(), { once: true });
     </script>
 </body>
 </html>

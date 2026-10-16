@@ -6,26 +6,29 @@
     <title>Recorrido Virtual - Día de Muertos</title>
     <!-- Fuentes Locales 100% Offline (Mantiene idéntico el aspecto visual sin internet) -->
     <link rel="stylesheet" href="./fonts/local_fonts.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com"  />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700;800;900&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet" />
     
     <!-- MediaPipe Face Mesh & Camera Utils Scripts Locales 100% Offline -->
     <script src="mediapipe/camera_utils.js"></script>
     <script src="mediapipe/face_mesh.js"></script>
-    <script type="module"  src="./assets/index-OgSRVNBf.js"></script>
-    <link rel="stylesheet"  href="./assets/index-C3RztpTz.css">
+    <script type="module"  src="./assets/index-CgMH0F5r.js"></script>
+    <link rel="stylesheet"  href="./assets/index-DLhRLLkT.css">
   </head>
   <body class="bg-black text-white min-h-screen overflow-hidden select-none">
     <!-- Pantalla de carga réplica exacta de la Pokédex -->
     <div id="html-splash-screen" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background-color:#000000;z-index:99999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);overflow:hidden;">
       <img id="splash-img" src="Pantalla%20de%20carga.jpg" alt="Cargando..." />
       
-      <!-- Texto animado idéntico a la app Pokédex -->
-      <div style="margin-top:auto;margin-bottom:12vh;background:rgba(18, 10, 5, 0.75);padding:14px 34px;border-radius:30px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,140,0,0.3);box-shadow:0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(255,117,24,0.3);">
-        <h1 style="color:#ffffff;font-family:'Space Grotesk', sans-serif;font-size:22px;margin:0;font-weight:600;letter-spacing:1px;animation:text-pulse 1.5s infinite;display:flex;align-items:center;gap:6px;">
+      <!-- Texto animado de carga adaptable a Android y PC -->
+      <div style="margin-top:auto;margin-bottom:10vh;background:rgba(18, 10, 5, 0.85);padding:12px 24px;border-radius:26px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,140,0,0.35);box-shadow:0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(255,117,24,0.3);max-width:90vw;">
+        <h1 style="color:#ffffff;font-family:'Space Grotesk', system-ui, -apple-system, sans-serif;font-size:clamp(15px, 4.5vw, 22px);margin:0;font-weight:600;letter-spacing:1px;animation:text-pulse 1.5s infinite;display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;">
           <span>Cargando aplicación</span><span class="dots"></span>
         </h1>
       </div>
 
-      <style>#splash-img{object-fit:contain;object-position:center;z-index:-1;width:100%;height:100%;animation:2s ease-in-out infinite pulse-fade;position:absolute}@media (width>=600px),(aspect-ratio>=3/4){#splash-img{object-fit:cover}}@keyframes pulse-fade{0%{opacity:1;transform:scale(1)}50%{opacity:.88;transform:scale(1.02)}to{opacity:1;transform:scale(1)}}@keyframes text-pulse{0%{opacity:.6}50%{opacity:1;text-shadow:0 0 15px #ff9632e6}to{opacity:.6}}@keyframes loading-dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}to{content:""}}.dots:after{content:"";animation:1.5s step-end infinite loading-dots}</style>
+      <style>#splash-img{object-fit:cover;object-position:center;z-index:-1;width:100%;height:100%;animation:2s ease-in-out infinite pulse-fade;position:absolute}@keyframes pulse-fade{0%{opacity:1;transform:scale(1)}50%{opacity:.88;transform:scale(1.02)}to{opacity:1;transform:scale(1)}}@keyframes text-pulse{0%{opacity:.6}50%{opacity:1;text-shadow:0 0 15px #ff9632e6}to{opacity:.6}}@keyframes loading-dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}to{content:""}}.dots:after{content:"";animation:1.5s step-end infinite loading-dots}</style>
     </div>
 
     <div id="root" class="h-full"></div>
