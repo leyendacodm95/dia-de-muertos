@@ -150,7 +150,7 @@
         <div id="game-container">
         <!-- BOTÓN FLOTANTE REGRESAR AL MENÚ PRINCIPAL (SIEMPRE VISIBLE) -->
         <button id="btn-game-return" onclick="exitGameToApp()"
-                class="absolute top-3 left-3 z-[100] flex items-center gap-2 group focus:outline-none transition-transform active:scale-95 cursor-pointer pointer-events-auto"
+                class="fixed top-3 left-3 z-[300] flex items-center gap-2 group focus:outline-none transition-transform active:scale-95 cursor-pointer pointer-events-auto"
                 title="Regresar al menú principal" aria-label="Regresar">
             <img src="Regresar_btn.png" alt="Regresar" class="h-9 sm:h-11 w-auto object-contain drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] group-hover:scale-105 transition-transform" />
         </button>
@@ -923,11 +923,11 @@
             const hud = document.getElementById('hud-overlay');
             if (hud) {
                 if (portrait) {
-                    hud.style.top = '14px'; hud.style.left = '64px'; hud.style.right = '8px';
+                    hud.style.top = '14px'; hud.style.left = '135px'; hud.style.right = '8px';
                 } else {
                     const r = canvas.getBoundingClientRect();
                     hud.style.top = Math.max(14, r.top + 6) + 'px';
-                    hud.style.left = Math.max(64, r.left + 8) + 'px';
+                    hud.style.left = Math.max(135, r.left + 8) + 'px';
                     hud.style.right = (vw - r.right + 8) + 'px';
                 }
             }
@@ -1089,6 +1089,11 @@
             score = 0; lives = 3;
             document.getElementById('screen-start').classList.add('hidden');
             document.getElementById('hud-overlay').classList.remove('hidden');
+            const rBtn = document.getElementById('btn-game-return');
+            if (rBtn) {
+                rBtn.style.display = 'flex';
+                rBtn.style.visibility = 'visible';
+            }
 
             gameState = 'PLAYING';
             updateTouchControlsVisibility();
@@ -1600,9 +1605,10 @@
         window.onload = () => {
             gameLoop();
             resizeCanvas();
-            if (window.parent && window.parent !== window) {
-                const rBtn = document.getElementById('btn-game-return');
-                if (rBtn) rBtn.style.display = 'none';
+            const rBtn = document.getElementById('btn-game-return');
+            if (rBtn) {
+                rBtn.style.display = 'flex';
+                rBtn.style.visibility = 'visible';
             }
         };
 
