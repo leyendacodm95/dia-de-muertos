@@ -13,11 +13,11 @@
     <!-- MediaPipe Face Mesh & Camera Utils Scripts Locales 100% Offline -->
     <script src="mediapipe/camera_utils.js"></script>
     <script src="mediapipe/face_mesh.js"></script>
-    <script type="module"  src="./assets/index-b5Nd2ZEx.js"></script>
-    <link rel="stylesheet"  href="./assets/index-BFyvJ2xM.css">
+    <script type="module"  src="./assets/index-OMdPzYGk.js"></script>
+    <link rel="stylesheet"  href="./assets/index-B5v9iGxv.css">
   </head>
   <body class="bg-black text-white min-h-screen overflow-hidden select-none">
-    <!-- Pantalla de carga réplica exacta de la Pokédex -->
+    <!-- Pantalla de carga réplica exacta -->
     <div id="html-splash-screen" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background-color:#000000;z-index:99999;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);overflow:hidden;">
       <img id="splash-img" src="Pantalla%20de%20carga.jpg" alt="Cargando..." />
       
@@ -28,7 +28,7 @@
         </h1>
       </div>
 
-      <style>#splash-img{object-fit:cover;object-position:center;z-index:-1;width:100%;height:100%;animation:2s ease-in-out infinite pulse-fade;position:absolute}@keyframes pulse-fade{0%{opacity:1;transform:scale(1)}50%{opacity:.88;transform:scale(1.02)}to{opacity:1;transform:scale(1)}}@keyframes text-pulse{0%{opacity:.6}50%{opacity:1;text-shadow:0 0 15px #ff9632e6}to{opacity:.6}}@keyframes loading-dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}to{content:""}}.dots:after{content:"";animation:1.5s step-end infinite loading-dots}</style>
+      <style>#splash-img{object-fit:cover;object-position:center;z-index:-1;width:100%;height:100%;animation:2s ease-in-out infinite pulse-fade;position:absolute}@media (width>=900px) and (orientation:landscape){#splash-img{object-fit:contain}}@keyframes pulse-fade{0%{opacity:1;transform:scale(1)}50%{opacity:.88;transform:scale(1.02)}to{opacity:1;transform:scale(1)}}@keyframes text-pulse{0%{opacity:.6}50%{opacity:1;text-shadow:0 0 15px #ff9632e6}to{opacity:.6}}@keyframes loading-dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}to{content:""}}.dots:after{content:"";animation:1.5s step-end infinite loading-dots}</style>
     </div>
 
     <div id="root" class="h-full"></div>
