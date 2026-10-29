@@ -149,12 +149,6 @@
     </audio>
 
         <div id="game-container">
-        <!-- BOTÓN FLOTANTE REGRESAR AL MENÚ PRINCIPAL (SIEMPRE VISIBLE) -->
-        <button id="btn-game-return" onclick="exitGameToApp()"
-                class="fixed top-3 left-3 z-[300] flex items-center gap-2 group focus:outline-none transition-transform active:scale-95 cursor-pointer pointer-events-auto"
-                title="Regresar al menú principal" aria-label="Regresar">
-            <img src="Regresar_btn.png" alt="Regresar" class="h-9 sm:h-11 w-auto object-contain drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] group-hover:scale-105 transition-transform" />
-        </button>
         <!-- CANVAS PRINCIPAL -->
         <canvas id="gameCanvas" width="960" height="540"></canvas>
 
@@ -192,29 +186,29 @@
         </div>
 
         <!-- CONTROLES TÁCTILES: EXCLUSIVOS PARA ANDROID Y DISPOSITIVOS MÓVILES -->
-        <div id="touch-controls" class="absolute inset-x-0 bottom-0 z-30 pointer-events-none hidden items-end justify-between px-3 pb-2 sm:px-6 sm:pb-3 select-none touch-none">
+        <div id="touch-controls" class="absolute inset-x-0 bottom-0 z-30 pointer-events-none hidden items-end justify-between px-2.5 pb-1.5 sm:px-6 sm:pb-3 select-none touch-none">
             <!-- JOYSTICK TOUCH A LA IZQUIERDA (TRANSPARENTE Y NO INVASIVO) -->
-            <div id="joystick-zone" class="relative w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center pointer-events-auto select-none touch-none opacity-80 hover:opacity-100 transition-opacity">
-                <div id="joystick-base" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-black/20 border-2 border-amber-500/40 flex items-center justify-center shadow-[0_0_15px_rgba(245,158,11,0.2)] relative">
-                    <span class="absolute left-2 text-amber-400/50 text-xs font-black">◀</span>
-                    <span class="absolute right-2 text-amber-400/50 text-xs font-black">▶</span>
-                    <div id="joystick-knob" class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-amber-400/60 via-orange-500/60 to-amber-600/60 border-2 border-white/70 shadow-md flex items-center justify-center pointer-events-none">
-                        <div class="w-3 h-3 rounded-full bg-white/60"></div>
+            <div id="joystick-zone" class="relative w-[clamp(88px,24vmin,128px)] h-[clamp(88px,24vmin,128px)] flex items-center justify-center pointer-events-auto select-none touch-none opacity-80 hover:opacity-100 transition-opacity">
+                <div id="joystick-base" class="w-[clamp(76px,21vmin,112px)] h-[clamp(76px,21vmin,112px)] rounded-full bg-black/20 border-2 border-amber-500/40 flex items-center justify-center shadow-[0_0_15px_rgba(245,158,11,0.2)] relative">
+                    <span class="absolute left-1.5 sm:left-2 text-amber-400/50 text-[10px] sm:text-xs font-black">◀</span>
+                    <span class="absolute right-1.5 sm:right-2 text-amber-400/50 text-[10px] sm:text-xs font-black">▶</span>
+                    <div id="joystick-knob" class="w-[clamp(36px,10vmin,48px)] h-[clamp(36px,10vmin,48px)] rounded-full bg-gradient-to-br from-amber-400/60 via-orange-500/60 to-amber-600/60 border-2 border-white/70 shadow-md flex items-center justify-center pointer-events-none">
+                        <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/60"></div>
                     </div>
                 </div>
             </div>
 
             <!-- BOTONES DE ACCIÓN A LA DERECHA: SALTO Y LADRIDO -->
-            <div class="flex items-end gap-2.5 sm:gap-3 pointer-events-auto select-none touch-none">
+            <div class="flex items-end gap-2 sm:gap-3 pointer-events-auto select-none touch-none">
                 <!-- Botón Ladrido (ataque contra jefes y ánimas) -->
-                <button id="btn-bark" class="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-purple-950/85 border-2 border-oro text-oro flex flex-col items-center justify-center shadow-lg active:scale-90 transition-transform cursor-pointer" aria-label="Ladrido">
-                    <i class="fa-solid fa-dog text-sm sm:text-base"></i>
-                    <span class="text-[8px] sm:text-[9px] font-bold mt-0.5">LADRIDO</span>
+                <button id="btn-bark" class="w-[clamp(44px,12.5vmin,58px)] h-[clamp(44px,12.5vmin,58px)] rounded-full bg-purple-950/85 border-2 border-oro text-oro flex flex-col items-center justify-center shadow-lg active:scale-90 transition-transform cursor-pointer" aria-label="Ladrido">
+                    <i class="fa-solid fa-dog text-xs sm:text-base"></i>
+                    <span id="txt-touch-bark" class="text-[7px] sm:text-[9px] font-bold mt-0.5">LADRIDO</span>
                 </button>
                 <!-- Botón Saltar (ergonómico y amplio) -->
-                <button id="btn-jump" class="w-18 h-18 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-amber-600 via-cempasuchil to-yellow-400 border-2 border-white text-white flex flex-col items-center justify-center shadow-[0_0_25px_rgba(255,157,0,0.5)] active:scale-90 transition-transform cursor-pointer" aria-label="Saltar">
-                    <i class="fa-solid fa-arrow-up text-xl sm:text-2xl font-black drop-shadow"></i>
-                    <span class="text-[10px] sm:text-[11px] font-black tracking-wider drop-shadow mt-0.5">SALTAR</span>
+                <button id="btn-jump" class="w-[clamp(60px,17vmin,82px)] h-[clamp(60px,17vmin,82px)] rounded-full bg-gradient-to-tr from-amber-600 via-cempasuchil to-yellow-400 border-2 border-white text-white flex flex-col items-center justify-center shadow-[0_0_25px_rgba(255,157,0,0.5)] active:scale-90 transition-transform cursor-pointer" aria-label="Saltar">
+                    <i class="fa-solid fa-arrow-up text-lg sm:text-2xl font-black drop-shadow"></i>
+                    <span id="txt-touch-jump" class="text-[8.5px] sm:text-[11px] font-black tracking-wider drop-shadow mt-0.5">SALTAR</span>
                 </button>
             </div>
         </div>
@@ -227,28 +221,28 @@
                     <span>🐕</span>
                     <span>👻</span>
                 </div>
-                <h1 class="font-cinzel text-xl md:text-3xl text-oro font-black tracking-wider leading-tight">
+                <h1 id="start-title" class="font-cinzel text-xl md:text-3xl text-oro font-black tracking-wider leading-tight">
                     LA CALAVERITA Y EL XOLOITZCUINTLE EN EL MICTLÁN
                 </h1>
-                <p class="text-xs md:text-sm text-gray-300 leading-relaxed">
+                <p id="start-desc" class="text-xs md:text-sm text-gray-300 leading-relaxed">
                     ¡Afronta las Ánimas legendarias! Tu Calaverita porta un sarape tradicional y posee <strong class="text-cempasuchil">Doble Salto</strong>. ¡Tu fiel Xoloitzcuintle es <strong class="text-oro">Inmortal</strong>, recolecta ofrendas y ahuyenta a los jefes!
                 </p>
 
                 <!-- Guía de Controles -->
                 <div class="guide bg-black/50 border border-purple-900 rounded-2xl p-3 md:p-4 text-left text-xs text-gray-300 space-y-2">
                     <div class="font-bold text-cempasuchil uppercase tracking-wider flex items-center">
-                        <i class="fa-solid fa-gamepad mr-2"></i> Controles:
+                        <i class="fa-solid fa-gamepad mr-2"></i> <span id="ctrl-header">Controles:</span>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-                        <div><strong class="text-oro">Movimiento:</strong> Flechas (← →) / A, D</div>
-                        <div><strong class="text-oro">Doble Salto:</strong> Espacio (x2) / Arriba</div>
-                        <div><strong class="text-oro">Ladrido Xolo:</strong> Tecla B / Botón Perro</div>
-                        <div><strong class="text-oro">Xolo Inmortal:</strong> Ataca jefes con ladridos</div>
+                        <div id="ctrl-move"><strong class="text-oro">Movimiento:</strong> Flechas (← →) / A, D</div>
+                        <div id="ctrl-jump"><strong class="text-oro">Doble Salto:</strong> Espacio (x2) / Arriba</div>
+                        <div id="ctrl-bark"><strong class="text-oro">Ladrido Xolo:</strong> Tecla B / Botón Perro</div>
+                        <div id="ctrl-immortal"><strong class="text-oro">Xolo Inmortal:</strong> Ataca jefes con ladridos</div>
                     </div>
                 </div>
 
                 <div class="flex flex-wrap items-center justify-center gap-2 pt-2">
-                    <button onclick="testAudio()" class="bg-purple-950 border border-oro/60 text-white text-xs px-3 py-2 rounded-xl">Probar sonidos</button>
+                    <button id="btn-test-sounds" onclick="testAudio()" class="bg-purple-950 border border-oro/60 text-white text-xs px-3 py-2 rounded-xl">Probar sonidos</button>
                     <button id="btn-music-toggle" onclick="toggleMusic()" class="bg-purple-950 border border-cempasuchil/50 text-oro text-xs px-3 py-2 rounded-xl flex items-center space-x-2">
                         <i id="music-icon" class="fa-solid fa-music"></i>
                         <span id="music-txt">Música: ON</span>
@@ -259,7 +253,7 @@
                     </button>
                     <button onclick="startGame()" class="btn-glow bg-gradient-to-r from-cempasuchil via-oro to-papelMagenta text-black font-extrabold text-sm md:text-base px-8 py-3 rounded-2xl w-full sm:w-auto sm:flex-1 sm:min-w-[200px] uppercase tracking-widest flex items-center justify-center space-x-2">
                         <i class="fa-solid fa-paw"></i>
-                        <span>Iniciar Travesía</span>
+                        <span id="btn-start-txt">Iniciar Travesía</span>
                     </button>
                 </div>
             </div>
@@ -284,7 +278,7 @@
 
                 <div class="flex justify-end pt-2">
                     <button onclick="nextDialogueStep()" class="btn-glow bg-cempasuchil hover:bg-oro text-black font-bold px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider flex items-center space-x-2">
-                        <span>Continuar</span>
+                        <span id="btn-dialogue-continue">Continuar</span>
                         <i class="fa-solid fa-chevron-right"></i>
                     </button>
                 </div>
@@ -297,7 +291,7 @@
                 <div class="inline-block p-3 rounded-full bg-cempasuchil/20 border border-cempasuchil text-oro text-4xl">📜</div>
                 <h3 id="lore-title" class="font-cinzel text-lg font-bold text-oro">Leyenda</h3>
                 <p id="lore-body" class="text-xs text-gray-200 leading-relaxed bg-black/40 p-4 rounded-xl border border-purple-900 text-left"></p>
-                <button onclick="closeLoreModal()" class="btn-glow bg-cempasuchil text-black font-bold px-6 py-2.5 rounded-xl w-full text-xs uppercase tracking-wider">
+                <button id="btn-lore-continue" onclick="closeLoreModal()" class="btn-glow bg-cempasuchil text-black font-bold px-6 py-2.5 rounded-xl w-full text-xs uppercase tracking-wider">
                     Continuar Aventura
                 </button>
             </div>
@@ -314,12 +308,12 @@
 
                 <div class="bg-black/50 p-4 rounded-2xl border border-cempasuchil/30 grid grid-cols-2 gap-3 text-xs">
                     <div>
-                        <span class="text-gray-400 block">Puntaje Total:</span>
+                        <span id="lbl-total-score" class="text-gray-400 block">Puntaje Total:</span>
                         <span id="victory-score" class="text-lg font-bold text-oro">0 Pts</span>
                     </div>
                     <div>
-                        <span class="text-gray-400 block">Estatus:</span>
-                        <span class="text-lg font-bold text-emerald-400">Guías Sagrados</span>
+                        <span id="lbl-status" class="text-gray-400 block">Estatus:</span>
+                        <span id="val-status" class="text-lg font-bold text-emerald-400">Guías Sagrados</span>
                     </div>
                 </div>
 
@@ -327,7 +321,7 @@
                     <button id="btn-next-level" onclick="nextLevel()" class="btn-glow bg-gradient-to-r from-cempasuchil to-oro text-black font-extrabold py-3 rounded-xl uppercase tracking-wider text-sm">
                         Siguiente Nivel <i class="fa-solid fa-arrow-right ml-2"></i>
                     </button>
-                    <button onclick="restartGame()" class="bg-purple-950 border border-purple-800 text-gray-300 py-2.5 rounded-xl text-xs">
+                    <button id="btn-restart-level1" onclick="restartGame()" class="bg-purple-950 border border-purple-800 text-gray-300 py-2.5 rounded-xl text-xs">
                         Reiniciar Nivel 1
                     </button>
                 </div>
@@ -338,11 +332,11 @@
         <div id="screen-gameover" class="absolute inset-0 bg-mictlanBg/95 z-40 flex overflow-y-auto overlay-scroll p-3 hidden">
             <div class="m-auto max-w-md w-full bg-mictlanPurple border-2 border-red-500 rounded-3xl p-6 text-center space-y-4">
                 <div class="text-5xl text-red-500">🕯️</div>
-                <h2 class="font-cinzel text-2xl font-bold text-red-400">LA LLAMA SE HA APAGADO</h2>
-                <p class="text-xs text-gray-300">
+                <h2 id="gameover-heading" class="font-cinzel text-2xl font-bold text-red-400">LA LLAMA SE HA APAGADO</h2>
+                <p id="gameover-subtext" class="text-xs text-gray-300">
                     Tu inmortal Xoloitzcuintle vela tu descanso. ¡Inténtalo de nuevo!
                 </p>
-                <button onclick="retryCurrentLevel()" class="btn-glow bg-gradient-to-r from-red-600 to-cempasuchil text-white font-bold py-3 rounded-xl w-full uppercase tracking-wider text-sm">
+                <button id="btn-retry-level" onclick="retryCurrentLevel()" class="btn-glow bg-gradient-to-r from-red-600 to-cempasuchil text-white font-bold py-3 rounded-xl w-full uppercase tracking-wider text-sm">
                     Reintentar Nivel
                 </button>
             </div>
@@ -444,23 +438,800 @@
             }
         }
 
+        let currentGameLang = (new URLSearchParams(window.location.search).get('lang') || localStorage.getItem('app_language') || 'es').toLowerCase().split(/[-_]/)[0];
+
+        const GAME_I18N = {
+            es: {
+                locale: 'es-MX',
+                title: 'LA CALAVERITA Y EL XOLOITZCUINTLE EN EL MICTLÁN',
+                desc: '¡Afronta las Ánimas legendarias! Tu Calaverita porta un sarape tradicional y posee <strong class="text-cempasuchil">Doble Salto</strong>. ¡Tu fiel Xoloitzcuintle es <strong class="text-oro">Inmortal</strong>, recolecta ofrendas y ahuyenta a los jefes!',
+                ctrlHeader: 'Controles:',
+                ctrlMove: '<strong class="text-oro">Movimiento:</strong> Flechas (← →) / A, D',
+                ctrlJump: '<strong class="text-oro">Doble Salto:</strong> Espacio (x2) / Arriba',
+                ctrlBark: '<strong class="text-oro">Ladrido Xolo:</strong> Tecla B / Botón Perro',
+                ctrlImmortal: '<strong class="text-oro">Xolo Inmortal:</strong> Ataca jefes con ladridos',
+                testSounds: 'Probar sonidos',
+                musicOn: 'Música: ON',
+                musicOff: 'Música: OFF',
+                voiceOn: 'Voz de Historia: ON',
+                voiceOff: 'Voz de Historia: OFF',
+                startBtn: 'Iniciar Travesía',
+                touchBark: 'LADRIDO',
+                touchJump: 'SALTAR',
+                levelPrefix: 'Nivel',
+                ptsSuffix: 'Pts',
+                travelerRole: 'Viajero del Mictlán',
+                continueBtn: 'Continuar',
+                victoryMidTitle: '¡ÁNIMA LIBERADA!',
+                victoryMidSub: 'Tu Xoloitzcuintle y tú han liberado el camino del Mictlán. ¡Tus 3 vidas se han regenerado!',
+                victoryFinalTitle: '¡PAZ EN EL MICTLÁN!',
+                victoryFinalSub: 'La Calaverita y el Xoloitzcuintle han guiado a todas las almas con su luz sagrada.',
+                totalScoreLbl: 'Puntaje Total:',
+                statusLbl: 'Estatus:',
+                statusVal: 'Guías Sagrados',
+                nextLevelBtn: 'Siguiente Nivel',
+                finishLegendBtn: 'Concluir Leyenda',
+                restartLevel1Btn: 'Reiniciar Nivel 1',
+                gameoverTitle: 'LA LLAMA SE HA APAGADO',
+                gameoverSub: 'Tu inmortal Xoloitzcuintle vela tu descanso. ¡Inténtalo de nuevo!',
+                retryLevelBtn: 'Reintentar Nivel',
+                bossNames: ['La Llorona Espectral', 'El Charro Negro', 'Mictlantecuhtli'],
+                dlg: [
+                    '¡Mira Dante! Mi nuevo sarape me protegerá del frío del Mictlán. Debemos iluminar el camino.',
+                    '¡Guau! Yo soy inmortal y olfatearé cualquier peligro. ¡Salto a donde tú vayas!',
+                    '¿Quién osa cruzar mis valles de pena? ¡Devuélvanme a mis hijos o sufrirán!',
+                    '¡Ay mis hijos! No dejaré que pasen al altar del Mictlán.',
+                    '¡Ládrale con la tecla B o botón de Perro! Mis ladridos sagrados ahuyentan a los espectros.',
+                    'Soy el dueño de las sombras y de las monedas de oro. ¡Tu alma me pertenece, viajero!',
+                    '¡Mi fe y mi Xolo son más fuertes que tus sombras!',
+                    'Has llegado al Gran Altar. ¡Demuestra que mereces la luz eterna!',
+                    '¡Con la luz de las ofrendas y mi fiel Xoloitzcuintle iluminaremos el Mictlán!'
+                ]
+            },
+            en: {
+                locale: 'en-US',
+                title: 'THE LITTLE SKULL AND THE XOLOITZCUINTLE IN MICTLAN',
+                desc: 'Face the legendary Spirits! Your Calaverita wears a traditional sarape and has <strong class="text-cempasuchil">Double Jump</strong>. Your loyal Xoloitzcuintle is <strong class="text-oro">Immortal</strong>, collects offerings, and drives bosses away!',
+                ctrlHeader: 'Controls:',
+                ctrlMove: '<strong class="text-oro">Movement:</strong> Arrows (← →) / A, D',
+                ctrlJump: '<strong class="text-oro">Double Jump:</strong> Space (x2) / Up',
+                ctrlBark: '<strong class="text-oro">Xolo Bark:</strong> B Key / Dog Button',
+                ctrlImmortal: '<strong class="text-oro">Immortal Xolo:</strong> Attacks bosses with barks',
+                testSounds: 'Test sounds',
+                musicOn: 'Music: ON',
+                musicOff: 'Music: OFF',
+                voiceOn: 'Story Voice: ON',
+                voiceOff: 'Story Voice: OFF',
+                startBtn: 'Start Journey',
+                touchBark: 'BARK',
+                touchJump: 'JUMP',
+                levelPrefix: 'Level',
+                ptsSuffix: 'Pts',
+                travelerRole: 'Mictlan Traveler',
+                continueBtn: 'Continue',
+                victoryMidTitle: 'SPIRIT FREED!',
+                victoryMidSub: 'You and your Xoloitzcuintle have cleared the path of Mictlan. Your 3 lives are restored!',
+                victoryFinalTitle: 'PEACE IN MICTLAN!',
+                victoryFinalSub: 'The Little Skull and the Xoloitzcuintle have guided all souls with their sacred light.',
+                totalScoreLbl: 'Total Score:',
+                statusLbl: 'Status:',
+                statusVal: 'Sacred Guides',
+                nextLevelBtn: 'Next Level',
+                finishLegendBtn: 'Complete Legend',
+                restartLevel1Btn: 'Restart Level 1',
+                gameoverTitle: 'THE FLAME HAS FADED',
+                gameoverSub: 'Your immortal Xoloitzcuintle watches over your rest. Try again!',
+                retryLevelBtn: 'Retry Level',
+                bossNames: ['Spectral La Llorona', 'El Charro Negro', 'Mictlantecuhtli'],
+                dlg: [
+                    'Look Dante! My new sarape will protect me from the cold of Mictlan. We must light the way.',
+                    'Woof! I am immortal and will sniff out any danger. I jump wherever you go!',
+                    'Who dares cross my valleys of sorrow? Return my children or suffer!',
+                    'Oh, my children! I will not let you pass to the altar of Mictlan.',
+                    'Bark at her with the B key or Dog button! My sacred barks drive specters away.',
+                    'I am the master of shadows and gold coins. Your soul belongs to me, traveler!',
+                    'My faith and my Xolo are stronger than your shadows!',
+                    'You have reached the Great Altar. Prove that you deserve eternal light!',
+                    'With the light of the offerings and my loyal Xoloitzcuintle, we will illuminate Mictlan!'
+                ]
+            },
+            fr: {
+                locale: 'fr-FR',
+                title: 'LA CALAVERITA ET LE XOLOITZCUINTLE AU MICTLAN',
+                desc: 'Affrontez les Esprits légendaires ! Votre Calaverita porte un sarape traditionnel et possède le <strong class="text-cempasuchil">Double Saut</strong>. Votre fidèle Xoloitzcuintle est <strong class="text-oro">Immortel</strong>, récolte les offrandes et repousse les boss !',
+                ctrlHeader: 'Commandes :',
+                ctrlMove: '<strong class="text-oro">Mouvement :</strong> Flèches (← →) / A, D',
+                ctrlJump: '<strong class="text-oro">Double Saut :</strong> Espace (x2) / Haut',
+                ctrlBark: '<strong class="text-oro">Aboiement Xolo :</strong> Touche B / Bouton Chien',
+                ctrlImmortal: '<strong class="text-oro">Xolo Immortel :</strong> Attaque les boss',
+                testSounds: 'Tester les sons',
+                musicOn: 'Musique : ON',
+                musicOff: 'Musique : OFF',
+                voiceOn: 'Voix Histoire : ON',
+                voiceOff: 'Voix Histoire : OFF',
+                startBtn: 'Commencer le Voyage',
+                touchBark: 'ABOYER',
+                touchJump: 'SAUTER',
+                levelPrefix: 'Niveau',
+                ptsSuffix: 'Pts',
+                travelerRole: 'Voyageur du Mictlan',
+                continueBtn: 'Continuer',
+                victoryMidTitle: 'ESPRIT LIBÉRÉ !',
+                victoryMidSub: 'Votre Xoloitzcuintle et vous avez libéré le chemin du Mictlan. Vos 3 vies sont restaurées !',
+                victoryFinalTitle: 'PAIX AU MICTLAN !',
+                victoryFinalSub: 'La Calaverita et le Xoloitzcuintle ont guidé toutes les âmes avec leur lumière sacrée.',
+                totalScoreLbl: 'Score Total :',
+                statusLbl: 'Statut :',
+                statusVal: 'Guides Sacrés',
+                nextLevelBtn: 'Niveau Suivant',
+                finishLegendBtn: 'Terminer la Légende',
+                restartLevel1Btn: 'Recommencer Niveau 1',
+                gameoverTitle: 'LA FLAMME S\'EST ÉTEINTE',
+                gameoverSub: 'Votre Xoloitzcuintle immortel veille sur votre repos. Réessayez !',
+                retryLevelBtn: 'Réessayer le Niveau',
+                bossNames: ['La Llorona Spectrale', 'El Charro Negro', 'Mictlantecuhtli'],
+                dlg: [
+                    'Regarde Dante ! Mon nouveau sarape me protégera du froid du Mictlan. Éclairons le chemin.',
+                    'Ouaf ! Je suis immortel et je flairerai tout danger. Je saute partout où tu vas !',
+                    'Qui ose traverser mes vallées de peine ? Rendez-moi mes enfants !',
+                    'Hélas, mes enfants ! Je ne vous laisserai pas passer vers l\'autel du Mictlan.',
+                    'Aboie avec la touche B ou le bouton Chien ! Mes aboiements sacrés chassent les spectres.',
+                    'Je suis le maître des ombres et des pièces d\'or. Ton âme m\'appartient, voyageur !',
+                    'Ma foi et mon Xolo sont plus forts que tes ombres !',
+                    'Tu as atteint le Grand Autel. Prouve que tu mérites la lumière éternelle !',
+                    'Avec la lumière des offrandes et mon fidèle Xoloitzcuintle, nous illuminerons le Mictlan !'
+                ]
+            },
+            pt: {
+                locale: 'pt-BR',
+                title: 'A CALAVERITA E O XOLOITZCUINTLE NO MICTLAN',
+                desc: 'Enfrente as Almas lendárias! Sua Calaverita veste um sarape tradicional e possui <strong class="text-cempasuchil">Salto Duplo</strong>. Seu fiel Xoloitzcuintle é <strong class="text-oro">Imortal</strong>, coleta oferendas e afasta os chefes!',
+                ctrlHeader: 'Controles:',
+                ctrlMove: '<strong class="text-oro">Movimento:</strong> Setas (← →) / A, D',
+                ctrlJump: '<strong class="text-oro">Salto Duplo:</strong> Espaço (x2) / Cima',
+                ctrlBark: '<strong class="text-oro">Latido Xolo:</strong> Tecla B / Botão Cão',
+                ctrlImmortal: '<strong class="text-oro">Xolo Imortal:</strong> Ataca chefes com latidos',
+                testSounds: 'Testar sons',
+                musicOn: 'Música: ON',
+                musicOff: 'Música: OFF',
+                voiceOn: 'Voz da História: ON',
+                voiceOff: 'Voz da História: OFF',
+                startBtn: 'Iniciar Jornada',
+                touchBark: 'LATIR',
+                touchJump: 'PULAR',
+                levelPrefix: 'Nível',
+                ptsSuffix: 'Pts',
+                travelerRole: 'Viajante do Mictlan',
+                continueBtn: 'Continuar',
+                victoryMidTitle: 'ALMA LIBERTADA!',
+                victoryMidSub: 'Você e seu Xoloitzcuintle abriram o caminho do Mictlan. Suas 3 vidas foram restauradas!',
+                victoryFinalTitle: 'PAZ NO MICTLAN!',
+                victoryFinalSub: 'A Calaverita e o Xoloitzcuintle guiaram todas as almas com sua luz sagrada.',
+                totalScoreLbl: 'Pontuação Total:',
+                statusLbl: 'Status:',
+                statusVal: 'Guias Sagrados',
+                nextLevelBtn: 'Próximo Nível',
+                finishLegendBtn: 'Concluir Lenda',
+                restartLevel1Btn: 'Reiniciar Nível 1',
+                gameoverTitle: 'A CHAMA SE APAGOU',
+                gameoverSub: 'Seu imortal Xoloitzcuintle guarda seu descanso. Tente novamente!',
+                retryLevelBtn: 'Tentar Novamente',
+                bossNames: ['A Chorona Espectral', 'El Charro Negro', 'Mictlantecuhtli'],
+                dlg: [
+                    'Olhe Dante! Meu novo sarape me protegerá do frio do Mictlan. Vamos iluminar o caminho.',
+                    'Au! Eu sou imortal e farejarei qualquer perigo. Pulo para onde você for!',
+                    'Quem ousa cruzar meus vales de dor? Devolvam meus filhos!',
+                    'Ai, meus filhos! Não deixarei que passem para o altar do Mictlan.',
+                    'Use a tecla B ou o botão de Cão para latir! Meus latidos sagrados afastam os espectros.',
+                    'Sou o dono das sombras e das moedas de ouro. Sua alma me pertence, viajante!',
+                    'Minha fé e meu Xolo são mais fortes que suas sombras!',
+                    'Você chegou ao Grande Altar. Prove que merece a luz eterna!',
+                    'Com a luz das oferendas e meu fiel Xoloitzcuintle iluminaremos o Mictlan!'
+                ]
+            },
+            de: {
+                locale: 'de-DE',
+                title: 'DIE CALAVERITA UND DER XOLOITZCUINTLE IN MICTLAN',
+                desc: 'Stelle dich den legendären Geistern! Deine Calaverita trägt einen traditionellen Sarape und beherrscht den <strong class="text-cempasuchil">Doppelsprung</strong>. Dein treuer Xoloitzcuintle ist <strong class="text-oro">Unsterblich</strong>, sammelt Opfergaben und vertreibt die Bosse!',
+                ctrlHeader: 'Steuerung:',
+                ctrlMove: '<strong class="text-oro">Bewegung:</strong> Pfeile (← →) / A, D',
+                ctrlJump: '<strong class="text-oro">Doppelsprung:</strong> Leertaste (x2) / Oben',
+                ctrlBark: '<strong class="text-oro">Xolo-Bellen:</strong> Taste B / Hunde-Knopf',
+                ctrlImmortal: '<strong class="text-oro">Unsterblicher Xolo:</strong> Greift Bosse an',
+                testSounds: 'Ton testen',
+                musicOn: 'Musik: AN',
+                musicOff: 'Musik: AUS',
+                voiceOn: 'Erzählstimme: AN',
+                voiceOff: 'Erzählstimme: AUS',
+                startBtn: 'Reise starten',
+                touchBark: 'BELLEN',
+                touchJump: 'SPRINGEN',
+                levelPrefix: 'Stufe',
+                ptsSuffix: 'Pkt',
+                travelerRole: 'Mictlan-Reisender',
+                continueBtn: 'Weiter',
+                victoryMidTitle: 'GEIST BEFREIT!',
+                victoryMidSub: 'Dein Xoloitzcuintle und du habt den Weg durch Mictlan befreit. Deine 3 Leben sind wiederhergestellt!',
+                victoryFinalTitle: 'FRIEDEN IN MICTLAN!',
+                victoryFinalSub: 'Die Calaverita und der Xoloitzcuintle haben alle Seelen mit ihrem heiligen Licht geführt.',
+                totalScoreLbl: 'Gesamtpunkte:',
+                statusLbl: 'Status:',
+                statusVal: 'Heilige Führer',
+                nextLevelBtn: 'Nächste Stufe',
+                finishLegendBtn: 'Legende vollenden',
+                restartLevel1Btn: 'Stufe 1 neu starten',
+                gameoverTitle: 'DIE FLAMME IST ERLOSCHEN',
+                gameoverSub: 'Dein unsterblicher Xoloitzcuintle wacht über dich. Versuche es erneut!',
+                retryLevelBtn: 'Stufe wiederholen',
+                bossNames: ['Die Geisterhafte Llorona', 'El Charro Negro', 'Mictlantecuhtli'],
+                dlg: [
+                    'Schau Dante! Mein neuer Sarape schützt mich vor der Kälte Mictlans. Wir müssen den Weg erhellen.',
+                    'Wuff! Ich bin unsterblich und wittere jede Gefahr. Ich springe, wohin du gehst!',
+                    'Wer wagt es, meine Täler des Leids zu durchqueren?',
+                    'Ach, meine Kinder! Ich lasse euch nicht zum Altar von Mictlan vor.',
+                    'Belle mit der Taste B oder dem Hunde-Knopf! Mein heiliges Bellen vertreibt die Geister.',
+                    'Ich bin der Herr der Schatten und Goldmünzen. Deine Seele gehört mir, Reisender!',
+                    'Mein Glaube und mein Xolo sind stärker als deine Schatten!',
+                    'Du hast den Großen Altar erreicht. Beweise, dass du das ewige Licht verdienst!',
+                    'Mit dem Licht der Opfergaben und meinem treuen Xoloitzcuintle erleuchten wir Mictlan!'
+                ]
+            },
+            it: {
+                locale: 'it-IT',
+                title: 'LA CALAVERITA E LO XOLOITZCUINTLE NEL MICTLAN',
+                desc: 'Affronta gli Spiriti leggendari! La tua Calaverita indossa un sarape tradizionale e possiede il <strong class="text-cempasuchil">Doppio Salto</strong>. Il tuo fedele Xoloitzcuintle è <strong class="text-oro">Immortale</strong>, raccoglie offerte e scaccia i boss!',
+                ctrlHeader: 'Comandi:',
+                ctrlMove: '<strong class="text-oro">Movimento:</strong> Frecce (← →) / A, D',
+                ctrlJump: '<strong class="text-oro">Doppio Salto:</strong> Spazio (x2) / Su',
+                ctrlBark: '<strong class="text-oro">Latrato Xolo:</strong> Tasto B / Pulsante Cane',
+                ctrlImmortal: '<strong class="text-oro">Xolo Immortale:</strong> Attacca i boss',
+                testSounds: 'Prova suoni',
+                musicOn: 'Musica: ON',
+                musicOff: 'Musica: OFF',
+                voiceOn: 'Voce Storia: ON',
+                voiceOff: 'Voce Storia: OFF',
+                startBtn: 'Inizia Viaggio',
+                touchBark: 'ABBAIA',
+                touchJump: 'SALTA',
+                levelPrefix: 'Livello',
+                ptsSuffix: 'Pt',
+                travelerRole: 'Viaggiatore del Mictlan',
+                continueBtn: 'Continua',
+                victoryMidTitle: 'SPIRITO LIBERATO!',
+                victoryMidSub: 'Tu e il tuo Xoloitzcuintle avete liberato il cammino del Mictlan. Le tue 3 vite sono rigenerate!',
+                victoryFinalTitle: 'PACE NEL MICTLAN!',
+                victoryFinalSub: 'La Calaverita e lo Xoloitzcuintle hanno guidato tutte le anime con la loro luce sacra.',
+                totalScoreLbl: 'Punteggio Totale:',
+                statusLbl: 'Stato:',
+                statusVal: 'Guide Sacre',
+                nextLevelBtn: 'Livello Successivo',
+                finishLegendBtn: 'Concludi Leggenda',
+                restartLevel1Btn: 'Ricomincia Livello 1',
+                gameoverTitle: 'LA FIAMMA SI È SPENTA',
+                gameoverSub: 'Il tuo immortale Xoloitzcuintle veglia sul tuo riposo. Riprova!',
+                retryLevelBtn: 'Riprova Livello',
+                bossNames: ['La Llorona Spettrale', 'El Charro Negro', 'Mictlantecuhtli'],
+                dlg: [
+                    'Guarda Dante! Il mio nuovo sarape mi proteggerà dal freddo del Mictlan. Illuminiamo il cammino.',
+                    'Bau! Sono immortale e fiuterò ogni pericolo. Salto ovunque tu vada!',
+                    'Chi osa attraversare le mie valli di dolore?',
+                    'Ah, figli miei! Non vi lascerò passare verso l\'altare del Mictlan.',
+                    'Abbaia con il tasto B o il pulsante Cane! I miei latrati sacri scacciano gli spettri.',
+                    'Sono il signore delle ombre e delle monete d\'oro. La tua anima mi appartiene, viaggiatore!',
+                    'La mia fede e il mio Xolo sono più forti delle tue ombre!',
+                    'Sei giunto al Grande Altare. Dimostra di meritare la luce eterna!',
+                    'Con la luce delle offerte e il mio fedele Xoloitzcuintle illumineremo il Mictlan!'
+                ]
+            },
+            ru: {
+                locale: 'ru-RU',
+                title: 'КАЛАВЕРИТА И ШОЛОИТЦКУИНТЛИ В МИКТЛАНЕ',
+                desc: 'Сразитесь с легендарными духами! Калаверита носит традиционный сарапе и владеет <strong class="text-cempasuchil">Двойным прыжком</strong>. Ваш верный Шолоитцкуинтли <strong class="text-oro">Бессмертен</strong>, собирает дары и прогоняет боссов!',
+                ctrlHeader: 'Управление:',
+                ctrlMove: '<strong class="text-oro">Движение:</strong> Стрелки (← →) / A, D',
+                ctrlJump: '<strong class="text-oro">Двойной прыжок:</strong> Пробел (x2) / Вверх',
+                ctrlBark: '<strong class="text-oro">Лай Шоло:</strong> Клавиша B / Кнопка Собаки',
+                ctrlImmortal: '<strong class="text-oro">Бессмертный Шоло:</strong> Атакует боссов лаем',
+                testSounds: 'Проверить звук',
+                musicOn: 'Музыка: ВКЛ',
+                musicOff: 'Музыка: ВЫКЛ',
+                voiceOn: 'Голос истории: ВКЛ',
+                voiceOff: 'Голос истории: ВЫКЛ',
+                startBtn: 'Начать Путь',
+                touchBark: 'ЛАЙ',
+                touchJump: 'ПРЫЖОК',
+                levelPrefix: 'Уровень',
+                ptsSuffix: 'Очк',
+                travelerRole: 'Путник Миктлана',
+                continueBtn: 'Далее',
+                victoryMidTitle: 'ДУХ ОСВОБОЖДЁН!',
+                victoryMidSub: 'Вы и ваш Шолоитцкуинтли освободили путь Миктлана. Ваши 3 жизни восстановлены!',
+                victoryFinalTitle: 'ПОКОЙ В МИКТЛАНЕ!',
+                victoryFinalSub: 'Калаверита и Шолоитцкуинтли провели все души своим священным светом.',
+                totalScoreLbl: 'Общий счёт:',
+                statusLbl: 'Статус:',
+                statusVal: 'Священные Проводники',
+                nextLevelBtn: 'Следующий уровень',
+                finishLegendBtn: 'Завершить легенду',
+                restartLevel1Btn: 'Начать с Уровня 1',
+                gameoverTitle: 'ПЛАМЯ ПОГАСЛО',
+                gameoverSub: 'Ваш бессмертный Шолоитцкуинтли охраняет ваш покой. Попробуйте снова!',
+                retryLevelBtn: 'Повторить уровень',
+                bossNames: ['Призрачная Йорона', 'Чёрный Чарро', 'Миктлантекутли'],
+                dlg: [
+                    'Смотри, Данте! Мой новый сарапе защитит меня от холода Миктлана. Осветим путь!',
+                    'Гав! Я бессмертен и почую любую опасность. Я прыгаю всюду за тобой!',
+                    'Кто смеет пересекать мои долины печали?',
+                    'О, мои дети! Я не пущу вас к алтарю Миктлана.',
+                    'Лай клавишей B или кнопкой Собаки! Мой священный лай прогоняет призраков.',
+                    'Я владыка теней и золотых монет. Твоя душа принадлежит мне, путник!',
+                    'Моя вера и мой Шоло сильнее твоих теней!',
+                    'Ты достиг Великого Алтаря. Докажи, что достоин вечного света!',
+                    'Светом подношений и моим верным Шолоитцкуинтли мы озарим Миктлан!'
+                ]
+            },
+            ja: {
+                locale: 'ja-JP',
+                title: 'ミクトランのカラベリタとショロイツクイントリ',
+                desc: '伝説の精霊たちに立ち向かおう！カラベリタは伝統のサラペをまとい、<strong class="text-cempasuchil">二段ジャンプ</strong>ができます。忠実なショロは<strong class="text-oro">不死身</strong>で、供物を集め、吠えてボスを退けます！',
+                ctrlHeader: '操作方法:',
+                ctrlMove: '<strong class="text-oro">移動:</strong> 矢印キー (← →) / A, D',
+                ctrlJump: '<strong class="text-oro">二段ジャンプ:</strong> スペース (x2) / 上',
+                ctrlBark: '<strong class="text-oro">ショロの吠え:</strong> Bキー / 犬ボタン',
+                ctrlImmortal: '<strong class="text-oro">不死身のショロ:</strong> 吠えてボスを攻撃',
+                testSounds: 'サウンドテスト',
+                musicOn: '音楽: ON',
+                musicOff: '音楽: OFF',
+                voiceOn: '物語ボイス: ON',
+                voiceOff: '物語ボイス: OFF',
+                startBtn: '冒険を始める',
+                touchBark: '吠える',
+                touchJump: 'ジャンプ',
+                levelPrefix: 'レベル',
+                ptsSuffix: '点',
+                travelerRole: 'ミクトランの旅人',
+                continueBtn: '次へ',
+                victoryMidTitle: '魂を解放！',
+                victoryMidSub: 'ショロと共にミクトランの道を切り開きました。ライフが3つ回復しました！',
+                victoryFinalTitle: 'ミクトランに平和を！',
+                victoryFinalSub: 'カラベリタとショロが聖なる光ですべての魂を導きました。',
+                totalScoreLbl: '合計スコア:',
+                statusLbl: '称号:',
+                statusVal: '聖なる導き手',
+                nextLevelBtn: '次のレベルへ',
+                finishLegendBtn: '伝説を完結する',
+                restartLevel1Btn: 'レベル1からやり直す',
+                gameoverTitle: '炎が消えてしまった',
+                gameoverSub: '不死身のショロがあなたを見守っています。もう一度挑戦しよう！',
+                retryLevelBtn: 'レベルを再挑戦',
+                bossNames: ['ラ・ヨローナの亡霊', 'エル・チャロ・ネグロ', 'ミクトランテクートリ'],
+                dlg: [
+                    '見てダンテ！新しいサラペがミクトランの寒さから守ってくれるよ。道を照らそう！',
+                    'ワン！ぼくは不死身だし、どんな危険も嗅ぎ分けるよ。どこへでも一緒に行くよ！',
+                    '悲しみの谷を渡ろうとするのは誰？',
+                    'ああ、私の子どもたち！ミクトランの祭壇へは通さないわ。',
+                    'Bキーか犬ボタンで吠えよう！聖なる咆哮が悪霊を追い払うよ。',
+                    '我は影と金貨の主。旅人よ、お前の魂は我がものだ！',
+                    '私の信念とショロは、あなたの影よりも強い！',
+                    '大祭壇へたどり着いたな。永遠の光にふさわしいか示してみせよ！',
+                    '供物の光と忠実なショロと共に、ミクトランを照らし出そう！'
+                ]
+            },
+            zh: {
+                locale: 'zh-CN',
+                title: '米克特兰的小骷髅与墨西哥无毛犬',
+                desc: '直面传奇幽魂！你的小骷髅身披传统披肩并拥有<strong class="text-cempasuchil">二段跳</strong>。忠诚的无毛犬是<strong class="text-oro">不死之身</strong>，能收集祭品并用吠声击退首领！',
+                ctrlHeader: '操作指南：',
+                ctrlMove: '<strong class="text-oro">移动：</strong> 方向键 (← →) / A, D',
+                ctrlJump: '<strong class="text-oro">二段跳：</strong> 空格键 (x2) / 上',
+                ctrlBark: '<strong class="text-oro">神犬吠叫：</strong> B键 / 小狗按钮',
+                ctrlImmortal: '<strong class="text-oro">不朽神犬：</strong> 用吠声攻击首领',
+                testSounds: '测试音效',
+                musicOn: '音乐: 开启',
+                musicOff: '音乐: 关闭',
+                voiceOn: '故事语音: 开启',
+                voiceOff: '故事语音: 关闭',
+                startBtn: '开始征程',
+                touchBark: '吠叫',
+                touchJump: '跳跃',
+                levelPrefix: '第',
+                ptsSuffix: '分',
+                travelerRole: '米克特兰旅人',
+                continueBtn: '继续',
+                victoryMidTitle: '灵魂已解脱！',
+                victoryMidSub: '你和无毛犬开辟了米克特兰的道路，3点生命已全部恢复！',
+                victoryFinalTitle: '米克特兰重归和平！',
+                victoryFinalSub: '小骷髅与无毛犬用神圣之光指引了所有灵魂。',
+                totalScoreLbl: '总分：',
+                statusLbl: '称号：',
+                statusVal: '神圣向导',
+                nextLevelBtn: '下一关',
+                finishLegendBtn: '完成传奇',
+                restartLevel1Btn: '重新开始第1关',
+                gameoverTitle: '烛火已熄灭',
+                gameoverSub: '不朽的无毛犬守护着你的安息，再试一次吧！',
+                retryLevelBtn: '重试本关',
+                bossNames: ['哭泣女幽魂', '黑骑士查罗', '米克特兰特库特利'],
+                dlg: [
+                    '看，但丁！我的新披肩能抵御米克特兰的严寒，我们要照亮前路。',
+                    '汪！我是不死之身，能嗅出任何危险。你去哪我就跳到哪！',
+                    '谁敢跨越我的悲伤之谷？',
+                    '啊，我的孩子们！我绝不会让你们通过米克特兰祭坛。',
+                    '按B键或小狗按钮吠叫！我的神圣吠声能驱散幽灵。',
+                    '我是暗影与金币之主。旅人，你的灵魂属于我！',
+                    '我的信念和无毛犬比你的暗影更强大！',
+                    '你已抵达大祭坛，证明你配得上永恒之光吧！',
+                    '凭祭品之光与忠诚的无毛犬，我们将照亮米克特兰！'
+                ]
+            },
+            ko: {
+                locale: 'ko-KR',
+                title: '믹틀란의 칼라베리타와 숄로이츠쿠인틀리',
+                desc: '전설의 영혼들에 맞서세요! 전통 사라페를 입은 칼라베리타는 <strong class="text-cempasuchil">이단 점프</strong>를 할 수 있습니다. 충실한 숄로는 <strong class="text-oro">불사신</strong>으로 공물을 모으고 보스를 물리칩니다!',
+                ctrlHeader: '조작법:',
+                ctrlMove: '<strong class="text-oro">이동:</strong> 방향키 (← →) / A, D',
+                ctrlJump: '<strong class="text-oro">이단 점프:</strong> 스페이스 (x2) / 위',
+                ctrlBark: '<strong class="text-oro">숄로 짖기:</strong> B키 / 강아지 버튼',
+                ctrlImmortal: '<strong class="text-oro">불사신 숄로:</strong> 짖기로 보스 공격',
+                testSounds: '소리 테스트',
+                musicOn: '음악: 켜짐',
+                musicOff: '음악: 꺼짐',
+                voiceOn: '이야기 음성: 켜짐',
+                voiceOff: '이야기 음성: 꺼짐',
+                startBtn: '모험 시작',
+                touchBark: '짖기',
+                touchJump: '점프',
+                levelPrefix: '레벨',
+                ptsSuffix: '점',
+                travelerRole: '믹틀란의 여행자',
+                continueBtn: '계속',
+                victoryMidTitle: '영혼 해방!',
+                victoryMidSub: '숄로와 함께 믹틀란의 길을 열었습니다. 생명 3개가 모두 회복되었습니다!',
+                victoryFinalTitle: '믹틀란의 평화!',
+                victoryFinalSub: '칼라베리타와 숄로가 성스러운 빛으로 모든 영혼을 인도했습니다.',
+                totalScoreLbl: '총점:',
+                statusLbl: '칭호:',
+                statusVal: '성스러운 인도자',
+                nextLevelBtn: '다음 레벨',
+                finishLegendBtn: '전설 완료',
+                restartLevel1Btn: '레벨 1 다시 시작',
+                gameoverTitle: '불꽃이 꺼졌습니다',
+                gameoverSub: '불사신 숄로가 당신의 안식을 지킵니다. 다시 도전하세요!',
+                retryLevelBtn: '레벨 재도전',
+                bossNames: ['라 요로나 망령', '검은 차로', '믹틀란테쿠틀리'],
+                dlg: [
+                    '단테야 봐! 내 새 사라페가 믹틀란의 추위를 막아줄 거야. 길을 밝히자.',
+                    '멍! 난 불사신이고 어떤 위험도 맡을 수 있어. 네가 가는 곳 어디든 점프할게!',
+                    '누가 감히 내 슬픔의 계곡을 건너려 하는가?',
+                    '아, 내 아이들아! 믹틀란의 제단으로 지나가게 두지 않겠다.',
+                    'B키나 강아지 버튼으로 짖어! 내 성스러운 짖음이 망령을 물리쳐.',
+                    '나는 그림자와 금화의 주인이다. 여행자여, 네 영혼은 내 것이다!',
+                    '내 믿음과 숄로는 네 그림자보다 강해!',
+                    '대제단에 도착했구나. 영원한 빛을 받을 자격이 있는지 증명해라!',
+                    '공물의 빛과 충실한 숄로와 함께 믹틀란을 밝히겠어!'
+                ]
+            },
+            hi: {
+                locale: 'hi-IN',
+                title: 'मिक्टलान में कालावेरिता और शोलोइत्ज़कुइंटली',
+                desc: 'पौराणिक आत्माओं का सामना करें! आपके कालावेरिता के पास पारंपरिक सरापे और <strong class="text-cempasuchil">डबल जंप</strong> है। आपका वफादार शोलो <strong class="text-oro">अमर</strong> है, भेंट इकट्ठा करता है और बॉस को भगाता है!',
+                ctrlHeader: 'नियंत्रण:',
+                ctrlMove: '<strong class="text-oro">चलना:</strong> तीर (← →) / A, D',
+                ctrlJump: '<strong class="text-oro">डबल जंप:</strong> स्पेस (x2) / ऊपर',
+                ctrlBark: '<strong class="text-oro">शोलो भौंकना:</strong> B कुंजी / डॉग बटन',
+                ctrlImmortal: '<strong class="text-oro">अमर शोलो:</strong> भौंककर बॉस पर हमला',
+                testSounds: 'ध्वनि जाँचें',
+                musicOn: 'संगीत: चालू',
+                musicOff: 'संगीत: बंद',
+                voiceOn: 'कहानी आवाज़: चालू',
+                voiceOff: 'कहानी आवाज़: बंद',
+                startBtn: 'यात्रा शुरू करें',
+                touchBark: 'भौंकें',
+                touchJump: 'कूदें',
+                levelPrefix: 'स्तर',
+                ptsSuffix: 'अंक',
+                travelerRole: 'मिक्टलान यात्री',
+                continueBtn: 'जारी रखें',
+                victoryMidTitle: 'आत्मा मुक्त हुई!',
+                victoryMidSub: 'आपने और आपके शोलो ने मिक्टलान का मार्ग खोल दिया है। आपके 3 जीवन बहाल हो गए!',
+                victoryFinalTitle: 'मिक्टलान में शांति!',
+                victoryFinalSub: 'कालावेरिता और शोलो ने अपने पवित्र प्रकाश से सभी आत्माओं का मार्गदर्शन किया।',
+                totalScoreLbl: 'कुल अंक:',
+                statusLbl: 'स्थिति:',
+                statusVal: 'पवित्र मार्गदर्शक',
+                nextLevelBtn: 'अगला स्तर',
+                finishLegendBtn: 'गाथा पूर्ण करें',
+                restartLevel1Btn: 'स्तर 1 पुनः शुरू करें',
+                gameoverTitle: 'लौ बुझ गई है',
+                gameoverSub: 'आपका अमर शोलो आपकी रक्षा कर रहा है। फिर से प्रयास करें!',
+                retryLevelBtn: 'पुनः प्रयास करें',
+                bossNames: ['ला योरोना आत्मा', 'एल चारो नेग्रो', 'मिक्टलांटेकुहली'],
+                dlg: [
+                    'देखो दांते! मेरा नया सरापे मुझे मिक्टलान की ठंड से बचाएगा। हमें रास्ता रोशन करना है।',
+                    'भौं! मैं अमर हूँ और हर खतरे को भांप लूँगा। जहाँ तुम जाओगे मैं कूदूँगा!',
+                    'मेरे दुख की घाटियों को पार करने का साहस किसने किया?',
+                    'ओह मेरे बच्चों! मैं तुम्हें मिक्टलान की वेदी तक नहीं जाने दूँगी।',
+                    'B कुंजी या डॉग बटन से भौंकें! मेरी पवित्र आवाज़ प्रेतों को भगाती है।',
+                    'मैं परछाइयों और सोने के सिक्कों का स्वामी हूँ। यात्री, तुम्हारी आत्मा मेरी है!',
+                    'मेरा विश्वास और मेरा शोलो तुम्हारी परछाइयों से अधिक शक्तिशाली हैं!',
+                    'तुम महान वेदी तक पहुँच गए हो। साबित करो कि तुम अनंत प्रकाश के योग्य हो!',
+                    'भेंटों के प्रकाश और मेरे वफादार शोलो के साथ हम मिक्टलान को आलोकित करेंगे!'
+                ]
+            },
+            wix: {
+                locale: 'es-MX',
+                title: 'CALAVERITA TSIERE TSUWÍ XOLO MICTLÁN HEITSIE',
+                desc: '¡Tatei miekariya ximie! Calaverita <strong class="text-cempasuchil">Huta Ximie</strong>. Tsuwí Xolo <strong class="text-oro">Aixi</strong>, tutu tsiere tatei kiyóojri!',
+                ctrlHeader: 'Xapa:',
+                ctrlMove: '<strong class="text-oro">Ximie:</strong> (← →) / A, D',
+                ctrlJump: '<strong class="text-oro">Huta Ximie:</strong> Espacio (x2)',
+                ctrlBark: '<strong class="text-oro">Tsuwí Xolo:</strong> B / Tsuwí',
+                ctrlImmortal: '<strong class="text-oro">Xolo Aixi:</strong> Kiyóojri',
+                testSounds: 'Xaweri xitakua',
+                musicOn: 'Xaweri: AIXI',
+                musicOff: 'Xaweri: KA',
+                voiceOn: 'Nyuuki: AIXI',
+                voiceOff: 'Nyuuki: KA',
+                startBtn: 'Mictlán Ximie',
+                touchBark: 'TSUWÍ',
+                touchJump: 'XIMIE',
+                levelPrefix: 'Heitsie',
+                ptsSuffix: 'Pts',
+                travelerRole: 'Mictlán Ximie',
+                continueBtn: 'Ximie',
+                victoryMidTitle: '¡AIXI TEMAYEWE!',
+                victoryMidSub: 'Tsuwí Xolo tsiere Mictlán ohtli temayewetsie!',
+                victoryFinalTitle: '¡MICTLÁN AIXI!',
+                victoryFinalSub: 'Calaverita tsiere Tsuwí Xolo tatei miekariya temayewetsie.',
+                totalScoreLbl: 'Xexuime:',
+                statusLbl: 'Tatei:',
+                statusVal: 'Tsuwí Aixi',
+                nextLevelBtn: 'Heitsie Ximie',
+                finishLegendBtn: 'Aixi Temayewe',
+                restartLevel1Btn: 'Heitsie 1 Pariitsie',
+                gameoverTitle: 'TAI KUPIRI',
+                gameoverSub: 'Tsuwí Xolo hetsie. ¡Pariitsie ximie!',
+                retryLevelBtn: 'Pariitsie Ximie',
+                bossNames: ['La Llorona', 'El Charro Negro', 'Mictlantecuhtli'],
+                dlg: [
+                    '¡Xitakua Dante! Mictlán ohtli tatei ximie.',
+                    '¡Guau! Tsuwí Xolo aixi, hetsie ximie!',
+                    '¿Mictlán ohtli ximie?',
+                    '¡Mictlán tatei neillika!',
+                    '¡B tsiere Tsuwí xitakua!',
+                    '¡El Charro Negro tatei!',
+                    '¡Tsuwí Xolo aixi!',
+                    '¡Mictlantecuhtli tatei neillika!',
+                    '¡Tutu tsiere Tsuwí Xolo Mictlán aixi!'
+                ]
+            },
+            crn: {
+                locale: 'es-MX',
+                title: 'CALAVERITA TSIERE TSI\'IRI XOLO MICTLÁN',
+                desc: '¡Mijmua kiyóojri! Calaverita <strong class="text-cempasuchil">Salto Doble</strong>. Tsi\'iri Xolo <strong class="text-oro">Teejche</strong>, xochitl tsiere mijmua kiyóojri!',
+                ctrlHeader: 'Káapuri:',
+                ctrlMove: '<strong class="text-oro">Mé\'eri:</strong> (← →) / A, D',
+                ctrlJump: '<strong class="text-oro">Salto:</strong> Espacio (x2)',
+                ctrlBark: '<strong class="text-oro">Tsi\'iri Xolo:</strong> B / Tsi\'iri',
+                ctrlImmortal: '<strong class="text-oro">Xolo Teejche:</strong> Kiyóojri',
+                testSounds: 'Xaweri tee\'eri',
+                musicOn: 'Xaweri: TEEJCHE',
+                musicOff: 'Xaweri: KAÍ',
+                voiceOn: 'Nyaawa: TEEJCHE',
+                voiceOff: 'Nyaawa: KAÍ',
+                startBtn: 'Mé\'eri Mictlán',
+                touchBark: 'TSI\'IRI',
+                touchJump: 'KIYÓOJRI',
+                levelPrefix: 'Watsie',
+                ptsSuffix: 'Pts',
+                travelerRole: 'Mictlán Mé\'eri',
+                continueBtn: 'Mé\'eri',
+                victoryMidTitle: '¡KIYÓOJRI TEEJCHE!',
+                victoryMidSub: 'Tsi\'iri Xolo tsiere Mictlán kiyóojri!',
+                victoryFinalTitle: '¡MICTLÁN TEEJCHE!',
+                victoryFinalSub: 'Calaverita tsiere Tsi\'iri Xolo mijmua kiyóojri.',
+                totalScoreLbl: 'Puntaje:',
+                statusLbl: 'Teejta\'a:',
+                statusVal: 'Tsi\'iri Teejche',
+                nextLevelBtn: 'Watsie Mé\'eri',
+                finishLegendBtn: 'Teejche Kiyóojri',
+                restartLevel1Btn: 'Watsie 1 Yé\'eri',
+                gameoverTitle: 'KAÍ MIJMUA',
+                gameoverSub: 'Tsi\'iri Xolo ná\'ana. ¡Yé\'eri mé\'eri!',
+                retryLevelBtn: 'Yé\'eri Watsie',
+                bossNames: ['La Llorona', 'El Charro Negro', 'Mictlantecuhtli'],
+                dlg: [
+                    '¡Dante! Mictlán watsie mé\'eri.',
+                    '¡Guau! Tsi\'iri Xolo teejche kiyóojri!',
+                    '¿Mictlán watsie kiyóojri?',
+                    '¡Mictlán teejta\'a mijmua!',
+                    '¡B tsiere Tsi\'iri tee\'eri!',
+                    '¡El Charro Negro mijmua!',
+                    '¡Tsi\'iri Xolo teejche!',
+                    '¡Mictlantecuhtli teejta\'a!',
+                    '¡Xochitl tsiere Tsi\'iri Xolo Mictlán kiyóojri!'
+                ]
+            },
+            stp: {
+                locale: 'es-MX',
+                title: 'CALAVERITA TSIERE KUK XOLO MICTLÁN',
+                desc: '¡Mikcham xim! Calaverita <strong class="text-cempasuchil">Gook Xim</strong>. Kuk Xolo <strong class="text-oro">Jix bhai\'</strong>, xochitl tsiere mikcham xim!',
+                ctrlHeader: 'Bhiñam:',
+                ctrlMove: '<strong class="text-oro">Xim:</strong> (← →) / A, D',
+                ctrlJump: '<strong class="text-oro">Gook Xim:</strong> Espacio (x2)',
+                ctrlBark: '<strong class="text-oro">Kuk Xolo:</strong> B / Kuk',
+                ctrlImmortal: '<strong class="text-oro">Xolo Jix bhai\':</strong> Ximda',
+                testSounds: 'Kuik t+ñchuda',
+                musicOn: 'Kuik: JIX BHAI\'',
+                musicOff: 'Kuik: CHAM',
+                voiceOn: 'Ñio\'ok: JIX BHAI\'',
+                voiceOff: 'Ñio\'ok: CHAM',
+                startBtn: 'Xim Mictlán',
+                touchBark: 'KUK',
+                touchJump: 'XIM',
+                levelPrefix: 'Mikcham',
+                ptsSuffix: 'Pts',
+                travelerRole: 'Mictlán Xim',
+                continueBtn: 'Xim',
+                victoryMidTitle: '¡MIKCHAM JIX BHAI\'!',
+                victoryMidSub: 'Kuk Xolo tsiere Mictlán ohtli jix bhai\'!',
+                victoryFinalTitle: '¡MICTLÁN JIX BHAI\'!',
+                victoryFinalSub: 'Calaverita tsiere Kuk Xolo mikcham jix bhai\'.',
+                totalScoreLbl: 'Puntaje:',
+                statusLbl: 'Mikcham:',
+                statusVal: 'Kuk Jix bhai\'',
+                nextLevelBtn: 'Mikcham Xim',
+                finishLegendBtn: 'Jix bhai\' Ohtli',
+                restartLevel1Btn: 'Mikcham 1 Ja\'ik',
+                gameoverTitle: 'CHAM TAI',
+                gameoverSub: 'Kuk Xolo jix bhai\'. ¡Ja\'ik xim!',
+                retryLevelBtn: 'Ja\'ik Mikcham',
+                bossNames: ['La Llorona', 'El Charro Negro', 'Mictlantecuhtli'],
+                dlg: [
+                    '¡Dante! Mictlán ohtli xim.',
+                    '¡Guau! Kuk Xolo jix bhai\' xim!',
+                    '¿Mictlán ohtli xim?',
+                    '¡Mictlán tlamanalli mikcham!',
+                    '¡B tsiere Kuk t+ñchuda!',
+                    '¡El Charro Negro mikcham!',
+                    '¡Kuk Xolo jix bhai\'!',
+                    '¡Mictlantecuhtli tlamanalli!',
+                    '¡Xochitl tsiere Kuk Xolo Mictlán jix bhai\'!'
+                ]
+            },
+            nhn: {
+                locale: 'es-MX',
+                title: 'CALAVERITA IHUAN XOLOITZCUINTLE IPAN MICTLÁN',
+                desc: '¡Ximomanahui in Mictlán! Calaverita kipia <strong class="text-cempasuchil">Ome Chololiztli</strong>. Xoloitzcuintli <strong class="text-oro"> Cemicac Nemiliztli</strong>, xochitl ihuan tlamanalli!',
+                ctrlHeader: 'Tlanahuatilli:',
+                ctrlMove: '<strong class="text-oro">Oliniliztli:</strong> (← →) / A, D',
+                ctrlJump: '<strong class="text-oro">Chololiztli:</strong> Espacio (x2)',
+                ctrlBark: '<strong class="text-oro">Xolo Tlahtolli:</strong> B / Xolo',
+                ctrlImmortal: '<strong class="text-oro">Xolo Quali:</strong> Yaochihualiztli',
+                testSounds: 'Xikkaki cuicatl',
+                musicOn: 'Cuicatl: QUALI',
+                musicOff: 'Cuicatl: AHMO',
+                voiceOn: 'Tlahtolli: QUALI',
+                voiceOff: 'Tlahtolli: AHMO',
+                startBtn: 'Xikpehua Ohtli',
+                touchBark: 'XOLO',
+                touchJump: 'XICHOLO',
+                levelPrefix: 'Tlamantli',
+                ptsSuffix: 'Pts',
+                travelerRole: 'Mictlán Nehnemini',
+                continueBtn: 'Xiyauh',
+                victoryMidTitle: '¡TONALLI OTLAMIC!',
+                victoryMidSub: 'Xoloitzcuintli ihuan tehuatl otiktlapohqueh in Mictlán ohtli!',
+                victoryFinalTitle: '¡TLACEMELLEH IPAN MICTLÁN!',
+                victoryFinalSub: 'Calaverita ihuan Xoloitzcuintli oquinyacanqueh in tonalli.',
+                totalScoreLbl: 'Tlapohualiztli:',
+                statusLbl: 'Mahuitzotl:',
+                statusVal: 'Tlayacanqui',
+                nextLevelBtn: 'Okse Tlamantli',
+                finishLegendBtn: 'Xiktlami Nemiliztli',
+                restartLevel1Btn: 'Okseppa Tlamantli 1',
+                gameoverTitle: 'TLETL OSEUHTIC',
+                gameoverSub: 'Mo Xoloitzcuintli mitztlapia. ¡Okseppa xikchihua!',
+                retryLevelBtn: 'Okseppa Tlamantli',
+                bossNames: ['Cihuacoatl Llorona', 'Charro Yayahuic', 'Mictlantecuhtli'],
+                dlg: [
+                    '¡Xikitta Dante! Notilmah nechmanahuiz ipan Mictlán. Tiktlahuilizqueh in ohtli.',
+                    '¡Guau! Nehuatl cemicac ninemi. ¡ampa tiaz nicholoz!',
+                    '¿Acin panohua ipan notlaocol?',
+                    '¡Nopilhuantzitzin! Ahmo xipanocan ipan Mictlán tlamanalli.',
+                    '¡Xiktoka B noso Xolo! Notlahtol quinchololtia in mictlantlacameh.',
+                    '¡Nehuatl tlatqui in teocuitlatl ihuan tlayohualli!',
+                    '¡Noyollo ihuan no Xolo ocachi chicahuac!',
+                    '¡Otikahsic in Hueyi Tlamanalli Mictlantecuhtli!',
+                    '¡Ica in cempohualxochitl ihuan Xoloitzcuintli tiktlahuilizqueh in Mictlán!'
+                ]
+            }
+        };
+
+        function getGameT() {
+            return GAME_I18N[currentGameLang] || GAME_I18N.es;
+        }
+
+        function applyGameLanguage(lang) {
+            if (lang) {
+                currentGameLang = String(lang).trim().toLowerCase().split(/[-_]/)[0];
+            }
+            const t = getGameT();
+            const setTxt = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined) el.innerText = val; };
+            const setHtml = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined) el.innerHTML = val; };
+
+            setTxt('start-title', t.title);
+            setHtml('start-desc', t.desc);
+            setTxt('ctrl-header', t.ctrlHeader);
+            setHtml('ctrl-move', t.ctrlMove);
+            setHtml('ctrl-jump', t.ctrlJump);
+            setHtml('ctrl-bark', t.ctrlBark);
+            setHtml('ctrl-immortal', t.ctrlImmortal);
+            setTxt('btn-test-sounds', t.testSounds);
+            setTxt('music-txt', musicEnabled ? t.musicOn : t.musicOff);
+            setTxt('voice-txt', voiceEnabled ? t.voiceOn : t.voiceOff);
+            setTxt('btn-start-txt', t.startBtn);
+            setTxt('txt-touch-bark', t.touchBark);
+            setTxt('txt-touch-jump', t.touchJump);
+            setTxt('dialogue-role', t.travelerRole);
+            setTxt('btn-dialogue-continue', t.continueBtn);
+            setTxt('btn-lore-continue', t.continueBtn);
+            setTxt('lbl-total-score', t.totalScoreLbl);
+            setTxt('lbl-status', t.statusLbl);
+            setTxt('val-status', t.statusVal);
+            setTxt('btn-restart-level1', t.restartLevel1Btn);
+            setTxt('gameover-heading', t.gameoverTitle);
+            setTxt('gameover-subtext', t.gameoverSub);
+            setTxt('btn-retry-level', t.retryLevelBtn);
+
+            if (typeof levelsData !== 'undefined' && Array.isArray(t.bossNames)) {
+                levelsData.forEach((lvl, idx) => {
+                    if (t.bossNames[idx] && lvl.boss) {
+                        lvl.boss.name = t.bossNames[idx];
+                    }
+                });
+            }
+            if (typeof storyDialogues !== 'undefined' && Array.isArray(t.dlg)) {
+                let dIdx = 0;
+                storyDialogues.forEach(seq => {
+                    seq.steps.forEach(step => {
+                        if (t.dlg[dIdx]) step.text = t.dlg[dIdx];
+                        dIdx++;
+                    });
+                });
+            }
+            if (typeof updateHUD === 'function' && typeof currentLevel !== 'undefined' && currentLevel) {
+                updateHUD();
+            }
+        }
+
         function toggleMusic() {
             musicEnabled = !musicEnabled;
             const music = document.getElementById('music-bruja');
             const icon = document.getElementById('music-icon');
             const txt = document.getElementById('music-txt');
+            const t = getGameT();
             if (musicEnabled) {
                 icon.className = 'fa-solid fa-music';
-                txt.innerText = 'Música: ON';
+                txt.innerText = t.musicOn;
                 startBackgroundMusic();
             } else {
                 icon.className = 'fa-solid fa-volume-xmark';
-                txt.innerText = 'Música: OFF';
+                txt.innerText = t.musicOff;
                 if (music) music.pause();
             }
         }
 
+        let currentVoiceAudio = null;
+
         function stopVoice() {
+            if (currentVoiceAudio) {
+                try {
+                    currentVoiceAudio.pause();
+                    currentVoiceAudio.currentTime = 0;
+                } catch (e) {}
+                currentVoiceAudio = null;
+            }
             try {
                 const tts = window.AndroidTTS || (window.parent && window.parent.AndroidTTS) || window.NativeTTS || (window.parent && window.parent.NativeTTS);
                 if (tts && typeof tts.stop === 'function') {
@@ -477,42 +1248,74 @@
             voiceEnabled = !voiceEnabled;
             const icon = document.getElementById('voice-icon');
             const txt = document.getElementById('voice-txt');
+            const t = getGameT();
             if (voiceEnabled) {
                 icon.className = 'fa-solid fa-volume-high';
-                txt.innerText = 'Voz de Historia: ON';
+                txt.innerText = t.voiceOn;
             } else {
                 icon.className = 'fa-solid fa-volume-xmark';
-                txt.innerText = 'Voz de Historia: OFF';
+                txt.innerText = t.voiceOff;
                 stopVoice();
             }
         }
 
-        function speakText(text, pitch = 1.0, rate = 1.0) {
+        function speakText(text, pitch = 1.0, rate = 1.0, audioFile = null) {
             if (!voiceEnabled || !text) return;
             stopVoice(); // Detener voz anterior de forma segura
+
+            // 1. Reproducir voz femenina neuronal incluida en la aplicación cuando el idioma es español
+            if (audioFile && currentGameLang === 'es') {
+                try {
+                    const audio = new Audio(audioFile);
+                    currentVoiceAudio = audio;
+                    const playPromise = audio.play();
+                    if (playPromise && typeof playPromise.catch === 'function') {
+                        playPromise.catch(() => {
+                            currentVoiceAudio = null;
+                            speakFallbackTTS(text, pitch, rate);
+                        });
+                    }
+                    return;
+                } catch (e) {
+                    currentVoiceAudio = null;
+                }
+            }
+
+            speakFallbackTTS(text, pitch, rate);
+        }
+
+        function speakFallbackTTS(text, pitch = 1.0, rate = 1.0) {
+            const t = getGameT();
+            const targetLocale = t.locale || 'es-MX';
+            const cleanText = String(text)
+                .replace(/\b[A-ZÁÉÍÓÚÜÑ]{2,}\b/g, w => w.toLowerCase())
+                .replace(/\b(Catrines|Catrinas|Catrín|Catrina|Mictlán|Mictlantecuhtli|Xoloitzcuintle|Xolo)\b/gi, w => w.toLowerCase())
+                .trim();
 
             // Soporte prioritario para Android nativo (AndroidTTS disponible en ventana o en parent)
             try {
                 const tts = window.AndroidTTS || (window.parent && window.parent.AndroidTTS) || window.NativeTTS || (window.parent && window.parent.NativeTTS);
                 if (tts && typeof tts.speak === 'function') {
-                    tts.speak(text);
+                    tts.speak(cleanText, targetLocale);
                     return;
                 }
             } catch (err) {
                 console.warn("Fallo AndroidTTS en juego, intentando fallback Web Speech:", err);
             }
 
-            // Fallback estándar Web Speech API para navegador PC
+            // Fallback estándar Web Speech API para navegador PC priorizando voz femenina
             if ('speechSynthesis' in window) {
                 try {
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    utterance.lang = 'es-MX';
+                    const utterance = new SpeechSynthesisUtterance(cleanText);
+                    utterance.lang = targetLocale;
                     utterance.pitch = pitch;
                     utterance.rate = rate;
 
                     const voices = window.speechSynthesis.getVoices();
-                    const esVoice = voices.find(v => v.lang.includes('es'));
-                    if (esVoice) utterance.voice = esVoice;
+                    const langPrefix = targetLocale.split('-')[0].toLowerCase();
+                    const langVoices = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith(langPrefix));
+                    const femaleVoice = langVoices.find(v => /dalia|sabina|paulina|helena|monica|mónica|laura|lucia|zira|aria|jenny|samantha|victoria|hortense|denise|hedda|katja|elsa|irina|haruka|kyoko|huihui|xiaoxiao|heami|kalpana|sara|female|mujer|woman/i.test(v.name)) || langVoices[0];
+                    if (femaleVoice) utterance.voice = femaleVoice;
 
                     window.speechSynthesis.speak(utterance);
                 } catch (e) {
@@ -584,33 +1387,33 @@
             {
                 trigger: 'level_1_start',
                 steps: [
-                    { portrait: '💀', img: 'icono_calaverita', speaker: 'Calaverita', text: '¡Mira Dante! Mi nuevo sarape me protegerá del frío del Mictlán. Debemos iluminar el camino.', pitch: 1.2 },
-                    { portrait: '🐕', speaker: 'Xolo Dante', text: '¡Guau! Yo soy inmortal y olfatearé cualquier peligro. ¡Salto a donde tú vayas!', pitch: 1.5 },
-                    { portrait: '👻', img: 'llorona', speaker: 'La Llorona (Ánima)', text: '¿Quién osa cruzar mis valles de pena? ¡Devuélvanme a mis hijos o sufrirán!', pitch: 0.7 }
+                    { portrait: '💀', img: 'icono_calaverita', speaker: 'Calaverita', text: '¡Mira Dante! Mi nuevo sarape me protegerá del frío del Mictlán. Debemos iluminar el camino.', pitch: 1.2, audio: 'audios_voz_femenina/juego_dlg_0.mp3' },
+                    { portrait: '🐕', speaker: 'Xolo Dante', text: '¡Guau! Yo soy inmortal y olfatearé cualquier peligro. ¡Salto a donde tú vayas!', pitch: 1.5, audio: 'audios_voz_femenina/juego_dlg_1.mp3' },
+                    { portrait: '👻', img: 'llorona', speaker: 'La Llorona (Ánima)', text: '¿Quién osa cruzar mis valles de pena? ¡Devuélvanme a mis hijos o sufrirán!', pitch: 0.7, audio: 'audios_voz_femenina/juego_dlg_2.mp3' }
                 ]
             },
             // Nivel 1 Boss Fight Start
             {
                 trigger: 'boss_1_start',
                 steps: [
-                    { portrait: '👻', img: 'llorona', speaker: 'La Llorona', text: '¡Ay mis hijos! No dejaré que pasen al altar del Mictlán.', pitch: 0.6 },
-                    { portrait: '🐕', speaker: 'Xolo Dante', text: '¡Ládrale con la tecla B o botón de Perro! Mis ladridos sagrados ahuyentan a los espectros.', pitch: 1.4 }
+                    { portrait: '👻', img: 'llorona', speaker: 'La Llorona', text: '¡Ay mis hijos! No dejaré que pasen al altar del Mictlán.', pitch: 0.6, audio: 'audios_voz_femenina/juego_dlg_3.mp3' },
+                    { portrait: '🐕', speaker: 'Xolo Dante', text: '¡Ládrale con la tecla B o botón de Perro! Mis ladridos sagrados ahuyentan a los espectros.', pitch: 1.4, audio: 'audios_voz_femenina/juego_dlg_4.mp3' }
                 ]
             },
             // Nivel 2 Boss Fight Start (El Charro Negro)
             {
                 trigger: 'boss_2_start',
                 steps: [
-                    { portrait: '🏇', img: 'charro', speaker: 'El Charro Negro', text: 'Soy el dueño de las sombras y de las monedas de oro. ¡Tu alma me pertenece, viajero!', pitch: 0.5 },
-                    { portrait: '💀', img: 'icono_calaverita', speaker: 'Calaverita', text: '¡Mi fe y mi Xolo son más fuertes que tus sombras!', pitch: 1.2 }
+                    { portrait: '🏇', img: 'charro', speaker: 'El Charro Negro', text: 'Soy el dueño de las sombras y de las monedas de oro. ¡Tu alma me pertenece, viajero!', pitch: 0.5, audio: 'audios_voz_femenina/juego_dlg_5.mp3' },
+                    { portrait: '💀', img: 'icono_calaverita', speaker: 'Calaverita', text: '¡Mi fe y mi Xolo son más fuertes que tus sombras!', pitch: 1.2, audio: 'audios_voz_femenina/juego_dlg_6.mp3' }
                 ]
             },
             // Nivel 3 Boss Fight Start (El Ánima Sola / Mictlantecuhtli)
             {
                 trigger: 'boss_3_start',
                 steps: [
-                    { portrait: '👑', img: 'mictlan', speaker: 'Mictlantecuhtli', text: 'Has llegado al Gran Altar. ¡Demuestra que mereces la luz eterna!', pitch: 0.4 },
-                    { portrait: '💀', img: 'icono_calaverita', speaker: 'Calaverita', text: '¡Con la luz de las ofrendas y mi fiel Xoloitzcuintle iluminaremos el Mictlán!', pitch: 1.2 }
+                    { portrait: '👑', img: 'mictlan', speaker: 'Mictlantecuhtli', text: 'Has llegado al Gran Altar. ¡Demuestra que mereces la luz eterna!', pitch: 0.4, audio: 'audios_voz_femenina/juego_dlg_7.mp3' },
+                    { portrait: '💀', img: 'icono_calaverita', speaker: 'Calaverita', text: '¡Con la luz de las ofrendas y mi fiel Xoloitzcuintle iluminaremos el Mictlán!', pitch: 1.2, audio: 'audios_voz_femenina/juego_dlg_8.mp3' }
                 ]
             }
         ];
@@ -645,7 +1448,7 @@
             document.getElementById('dialogue-speaker').innerText = step.speaker;
             document.getElementById('dialogue-text').innerText = step.text;
 
-            speakText(step.text, step.pitch || 1.0);
+            speakText(step.text, step.pitch || 1.0, 1.0, step.audio || null);
 
             window.currentDialogueCallback = onComplete;
         }
@@ -913,8 +1716,11 @@
         }
 
         window.addEventListener('message', (e) => {
-            if (e.data && (e.data.type === 'STOP_GAME' || e.data.type === 'EXIT_GAME')) {
+            if (!e.data) return;
+            if (e.data.type === 'STOP_GAME' || e.data.type === 'EXIT_GAME') {
                 stopAllGame();
+            } else if (e.data.type === 'SET_LANGUAGE' && e.data.lang) {
+                applyGameLanguage(e.data.lang);
             }
         });
 
@@ -981,10 +1787,16 @@
             const container = document.getElementById('game-container');
             const vw = container.clientWidth;
             const vh = container.clientHeight;
-            const portrait = vh > vw;
+            const aspectViewport = vw / Math.max(1, vh);
+            const portrait = aspectViewport < 0.85;
+            const isSquareFoldable = aspectViewport >= 0.80 && aspectViewport <= 1.28 && Math.min(vw, vh) >= 540;
 
-            // Proporción lógica del canvas interno
-            const logicalW = portrait ? 720 : Math.round(Math.min(1380, Math.max(860, 540 * vw / vh)));
+            // Proporción lógica del canvas interno adaptable a pantallas ultra-estrechas, cuadradas (Z Fold desplegado) y panorámicas
+            const logicalW = portrait
+                ? 720
+                : isSquareFoldable
+                    ? 860
+                    : Math.round(Math.min(1380, Math.max(860, 540 * vw / vh)));
 
             if (canvas.width !== logicalW) {
                 canvas.width = logicalW;
@@ -993,11 +1805,11 @@
 
             const aspect = canvas.width / canvas.height;
 
-            // REDUCCIÓN DEL TAMAÑO DE LA PANTALLA DE JUEGO CON MARCO NEGRO ALREDEDOR (PC Y ANDROID)
-            // Se mantiene fullscreen pero el canvas ocupa ~83%-86% dejando espacio para que los controles no tapen la visión
+            // Ajuste fluido de escala según el tipo de dispositivo (incluyendo pantalla externa estrecha y pantalla doble plegable)
             const isTouch = isAndroidOrMobileTouch();
-            const scaleFactorW = isTouch ? 0.83 : 0.86;
-            const scaleFactorH = isTouch ? 0.80 : 0.84;
+            const isNarrowScreen = vw < 420;
+            const scaleFactorW = isNarrowScreen ? 0.96 : (isSquareFoldable ? 0.92 : (isTouch ? 0.85 : 0.86));
+            const scaleFactorH = isNarrowScreen ? 0.82 : (isSquareFoldable ? 0.84 : (isTouch ? 0.80 : 0.84));
 
             let maxW = vw * scaleFactorW;
             let maxH = vh * scaleFactorH;
@@ -1023,13 +1835,15 @@
             container.style.justifyContent = 'center';
             canvas.style.margin = 'auto';
 
-            // Colocar el HUD ajustado dentro del marco visible del canvas
+            // Colocar el HUD ajustado dentro del marco visible del canvas sin chocar con el botón Regresar
             const hud = document.getElementById('hud-overlay');
             if (hud) {
                 const r = canvas.getBoundingClientRect();
-                hud.style.top = Math.max(8, r.top + 8) + 'px';
-                hud.style.left = Math.max(85, r.left + 12) + 'px';
-                hud.style.right = Math.max(12, (vw - r.right + 12)) + 'px';
+                const topOffset = Math.max(8, r.top + 8);
+                hud.style.top = topOffset + 'px';
+                const minLeft = topOffset > 52 ? 8 : (vw < 380 ? 68 : 85);
+                hud.style.left = Math.max(minLeft, r.left + 10) + 'px';
+                hud.style.right = Math.max(10, (vw - r.right + 10)) + 'px';
             }
         }
         window.addEventListener('orientationchange', () => setTimeout(resizeCanvas, 150));
@@ -2456,23 +3270,25 @@
             updateTouchControlsVisibility();
             playSound('collect');
 
-            document.getElementById('victory-score').innerText = `${score} Pts`;
+            const t = getGameT();
+            document.getElementById('victory-score').innerText = `${score} ${t.ptsSuffix}`;
             const btnNext = document.getElementById('btn-next-level');
 
             if (currentLevelIdx + 1 < levelsData.length) {
-                document.getElementById('victory-heading').innerText = '¡ÁNIMA LIBERADA!';
-                document.getElementById('victory-subtext').innerText = 'Tu Xoloitzcuintle y tú han liberado el camino del Mictlán. ¡Tus 3 vidas se han regenerado!';
-                btnNext.innerHTML = 'Siguiente Nivel <i class="fa-solid fa-arrow-right ml-2"></i>';
+                document.getElementById('victory-heading').innerText = t.victoryMidTitle;
+                document.getElementById('victory-subtext').innerText = t.victoryMidSub;
+                btnNext.innerHTML = `${t.nextLevelBtn} <i class="fa-solid fa-arrow-right ml-2"></i>`;
             } else {
-                document.getElementById('victory-heading').innerText = '¡PAZ EN EL MICTLÁN!';
-                document.getElementById('victory-subtext').innerText = 'La Calaverita y el Xoloitzcuintle han guiado a todas las almas con su luz sagrada.';
-                btnNext.innerHTML = 'Concluir Leyenda <i class="fa-solid fa-trophy ml-2"></i>';
+                document.getElementById('victory-heading').innerText = t.victoryFinalTitle;
+                document.getElementById('victory-subtext').innerText = t.victoryFinalSub;
+                btnNext.innerHTML = `${t.finishLegendBtn} <i class="fa-solid fa-trophy ml-2"></i>`;
             }
 
             document.getElementById('screen-victory').classList.remove('hidden');
         }
 
         function updateHUD() {
+            const t = getGameT();
             let livesHtml = '';
             for (let i = 0; i < 3; i++) {
                 if (i < lives) {
@@ -2482,12 +3298,13 @@
                 }
             }
             document.getElementById('hud-lives').innerHTML = livesHtml;
-            document.getElementById('hud-level-name').innerText = currentLevel ? currentLevel.name.split(':')[0] : 'Nivel 1';
+            const lvlNum = (typeof currentLevelIdx === 'number' ? currentLevelIdx + 1 : 1);
+            document.getElementById('hud-level-name').innerText = currentGameLang === 'zh' ? `第${lvlNum}关` : `${t.levelPrefix} ${lvlNum}`;
 
             const totalC = activeCollectibles.length;
             const collectedC = activeCollectibles.filter(c => c.collected).length;
             document.getElementById('hud-offerings').innerText = `${collectedC} / ${totalC}`;
-            document.getElementById('hud-score').innerText = `${score} Pts`;
+            document.getElementById('hud-score').innerText = `${score} ${t.ptsSuffix}`;
         }
 
         // =======================================================
@@ -3032,6 +3849,7 @@
         });
 
         window.onload = () => {
+            applyGameLanguage(currentGameLang);
             if (gameLoopId) {
                 cancelAnimationFrame(gameLoopId);
                 gameLoopId = null;
@@ -3040,11 +3858,6 @@
             physicsAccumulator = 0;
             gameLoopId = requestAnimationFrame(gameLoop);
             resizeCanvas();
-            const rBtn = document.getElementById('btn-game-return');
-            if (rBtn) {
-                rBtn.style.display = 'flex';
-                rBtn.style.visibility = 'visible';
-            }
         };
 
         // Activar pantalla completa automáticamente al primer toque/clic
