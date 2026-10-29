@@ -222,8 +222,8 @@
         <!-- 1. PANTALLA INICIAL -->
         <div id="screen-start" class="absolute inset-0 bg-mictlanBg/95 z-30 flex flex-col overflow-y-auto overlay-scroll p-3 md:p-6 text-center">
             <div class="m-auto max-w-xl w-full bg-mictlanPurple/90 border-2 border-cempasuchil/80 rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl backdrop-blur-md space-y-3 sm:space-y-4 relative">
-                <div class="emoji-row text-5xl md:text-6xl mb-1 flex justify-center space-x-2">
-                    <span>💀</span>
+                <div class="emoji-row text-5xl md:text-6xl mb-1 flex items-center justify-center space-x-3">
+                    <img src="icono_vida_calaverita.png" alt="Calaverita" class="w-12 h-12 md:w-14 md:h-14 object-contain drop-shadow-[0_0_10px_rgba(255,157,0,0.6)]" />
                     <span>🐕</span>
                     <span>👻</span>
                 </div>
@@ -269,8 +269,8 @@
         <div id="screen-dialogue" class="absolute inset-0 bg-black/85 backdrop-blur-md z-40 flex overflow-y-auto overlay-scroll p-3 hidden">
             <div class="m-auto max-w-lg w-full bg-mictlanPurple border-2 border-cempasuchil rounded-3xl p-6 shadow-2xl relative space-y-4">
                 <div class="flex items-center space-x-4 border-b border-purple-900/80 pb-3">
-                    <div id="dialogue-portrait" class="text-5xl bg-black/40 p-3 rounded-2xl border border-cempasuchil/40">
-                        💀
+                    <div id="dialogue-portrait" class="text-5xl bg-black/40 p-2 rounded-2xl border border-cempasuchil/40 flex items-center justify-center">
+                        <img src="icono_vida_calaverita.png" alt="Calaverita" style="width:68px;height:68px;object-fit:contain;" />
                     </div>
                     <div>
                         <h3 id="dialogue-speaker" class="font-cinzel text-lg font-bold text-oro">Calaverita</h3>
@@ -362,6 +362,7 @@
             mictlan: "boss_mictlan.png",
             espectro: "boss_espectro.png",
             calaverita: "calaverita_ue5.png",
+            icono_calaverita: "icono_vida_calaverita.png",
             xolo: "xolo_ue5.png",
             bg_ue5: "bg_mictlan_ue5.jpg"
         };
@@ -550,6 +551,13 @@
                     gain.gain.setValueAtTime(0.12, now);
                     gain.gain.linearRampToValueAtTime(0.01, now + 0.18);
                     osc.start(now); osc.stop(now + 0.18);
+                } else if (type === 'bossAttack') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(160, now);
+                    osc.frequency.exponentialRampToValueAtTime(45, now + 0.16);
+                    gain.gain.setValueAtTime(0.16, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.16);
+                    osc.start(now); osc.stop(now + 0.16);
                 } else if (type === 'bossHit') {
                     osc.type = 'square';
                     osc.frequency.setValueAtTime(150, now);
@@ -576,7 +584,7 @@
             {
                 trigger: 'level_1_start',
                 steps: [
-                    { portrait: '💀', speaker: 'Calaverita', text: '¡Mira Dante! Mi nuevo sarape me protegerá del frío del Mictlán. Debemos iluminar el camino.', pitch: 1.2 },
+                    { portrait: '💀', img: 'icono_calaverita', speaker: 'Calaverita', text: '¡Mira Dante! Mi nuevo sarape me protegerá del frío del Mictlán. Debemos iluminar el camino.', pitch: 1.2 },
                     { portrait: '🐕', speaker: 'Xolo Dante', text: '¡Guau! Yo soy inmortal y olfatearé cualquier peligro. ¡Salto a donde tú vayas!', pitch: 1.5 },
                     { portrait: '👻', img: 'llorona', speaker: 'La Llorona (Ánima)', text: '¿Quién osa cruzar mis valles de pena? ¡Devuélvanme a mis hijos o sufrirán!', pitch: 0.7 }
                 ]
@@ -594,14 +602,15 @@
                 trigger: 'boss_2_start',
                 steps: [
                     { portrait: '🏇', img: 'charro', speaker: 'El Charro Negro', text: 'Soy el dueño de las sombras y de las monedas de oro. ¡Tu alma me pertenece, viajero!', pitch: 0.5 },
-                    { portrait: '💀', speaker: 'Calaverita', text: '¡Mi fe y mi Xolo son más fuertes que tus sombras!', pitch: 1.2 }
+                    { portrait: '💀', img: 'icono_calaverita', speaker: 'Calaverita', text: '¡Mi fe y mi Xolo son más fuertes que tus sombras!', pitch: 1.2 }
                 ]
             },
             // Nivel 3 Boss Fight Start (El Ánima Sola / Mictlantecuhtli)
             {
                 trigger: 'boss_3_start',
                 steps: [
-                    { portrait: '👑', img: 'mictlan', speaker: 'Mictlantecuhtli', text: 'Has llegado al Gran Altar. ¡Demuestra que mereces la luz eterna!', pitch: 0.4 }
+                    { portrait: '👑', img: 'mictlan', speaker: 'Mictlantecuhtli', text: 'Has llegado al Gran Altar. ¡Demuestra que mereces la luz eterna!', pitch: 0.4 },
+                    { portrait: '💀', img: 'icono_calaverita', speaker: 'Calaverita', text: '¡Con la luz de las ofrendas y mi fiel Xoloitzcuintle iluminaremos el Mictlán!', pitch: 1.2 }
                 ]
             }
         ];
@@ -628,8 +637,8 @@
         function showDialogueStep(onComplete) {
             const step = activeDialogueSequence.steps[dialogueIndex];
             const portraitEl = document.getElementById('dialogue-portrait');
-            if (step.img && imgReady(step.img)) {
-                portraitEl.innerHTML = '<img src="' + IMG_SRC[step.img] + '" alt="' + step.speaker + '" style="width:72px;height:72px;object-fit:contain;object-position:center top;">';
+            if (step.img && IMG_SRC[step.img]) {
+                portraitEl.innerHTML = '<img src="' + IMG_SRC[step.img] + '" alt="' + step.speaker + '" style="width:72px;height:72px;object-fit:contain;object-position:center;">';
             } else {
                 portraitEl.innerText = step.portrait;
             }
@@ -647,7 +656,7 @@
                 showDialogueStep(window.currentDialogueCallback);
             } else {
                 document.getElementById('screen-dialogue').classList.add('hidden');
-                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+                stopVoice();
                 gameState = 'PLAYING';
                 updateTouchControlsVisibility();
                 if (window.currentDialogueCallback) window.currentDialogueCallback();
@@ -666,7 +675,7 @@
                     name: 'La Llorona Espectral',
                     icon: '👻', img: 'llorona', imgH: 140, float: true,
                     x: 2150, y: 220, w: 60, h: 80,
-                    hp: 100, maxHp: 100,
+                    hp: 160, maxHp: 160,
                     attackTimer: 0,
                     type: 'LLORONA'
                 },
@@ -691,8 +700,18 @@
                     { x: 1640, y: 230, type: 'cempasuchil' }
                 ],
                 enemies: [
-                    { x: 700, y: 385, w: 32, h: 35, range: 160, speed: 1.8 },
-                    { x: 1100, y: 345, w: 32, h: 35, range: 180, speed: 2.0 }
+                    { x: 350, y: 445, w: 32, h: 35, range: 130, speed: 1.6, variant: 'cyan' },
+                    { x: 250, y: 285, w: 30, h: 34, range: 100, speed: 1.5, variant: 'magenta' },
+                    { x: 520, y: 260, w: 32, h: 35, range: 110, speed: 1.8, float: true, floatAmp: 22, floatFreq: 0.05, variant: 'cyan' },
+                    { x: 680, y: 385, w: 32, h: 35, range: 180, speed: 1.9, variant: 'cyan' },
+                    { x: 760, y: 225, w: 30, h: 34, range: 100, speed: 1.7, variant: 'gold' },
+                    { x: 920, y: 270, w: 32, h: 35, range: 120, speed: 2.0, float: true, floatAmp: 25, floatFreq: 0.06, variant: 'magenta' },
+                    { x: 1080, y: 345, w: 32, h: 35, range: 200, speed: 2.1, variant: 'cyan' },
+                    { x: 1170, y: 185, w: 30, h: 34, range: 120, speed: 1.8, variant: 'gold' },
+                    { x: 1380, y: 290, w: 32, h: 35, range: 120, speed: 2.1, float: true, floatAmp: 24, floatFreq: 0.06, variant: 'magenta' },
+                    { x: 1520, y: 405, w: 32, h: 35, range: 190, speed: 2.2, variant: 'cyan' },
+                    { x: 1610, y: 245, w: 30, h: 34, range: 100, speed: 1.9, variant: 'gold' },
+                    { x: 1790, y: 320, w: 32, h: 35, range: 140, speed: 2.2, float: true, floatAmp: 22, floatFreq: 0.05, variant: 'magenta' }
                 ],
                 checkpoints: [{ x: 1080, y: 330 }]
             },
@@ -704,7 +723,7 @@
                     name: 'El Charro Negro',
                     icon: '🏇', img: 'charro', imgH: 140,
                     x: 2300, y: 360, w: 75, h: 85,
-                    hp: 140, maxHp: 140,
+                    hp: 260, maxHp: 260,
                     attackTimer: 0,
                     type: 'CHARRO'
                 },
@@ -727,8 +746,18 @@
                     { x: 1550, y: 240, type: 'calaverita' }
                 ],
                 enemies: [
-                    { x: 650, y: 395, w: 35, h: 35, range: 150, speed: 2.2 },
-                    { x: 1050, y: 365, w: 35, h: 35, range: 200, speed: 2.5 }
+                    { x: 310, y: 445, w: 34, h: 35, range: 140, speed: 2.0, variant: 'gold' },
+                    { x: 290, y: 285, w: 32, h: 34, range: 100, speed: 1.9, variant: 'magenta' },
+                    { x: 480, y: 310, w: 34, h: 35, range: 120, speed: 2.1, float: true, floatAmp: 24, floatFreq: 0.06, variant: 'cyan' },
+                    { x: 630, y: 395, w: 35, h: 35, range: 180, speed: 2.3, variant: 'cyan' },
+                    { x: 710, y: 235, w: 32, h: 34, range: 110, speed: 2.1, variant: 'gold' },
+                    { x: 880, y: 280, w: 34, h: 35, range: 130, speed: 2.3, float: true, floatAmp: 26, floatFreq: 0.06, variant: 'magenta' },
+                    { x: 1040, y: 365, w: 35, h: 35, range: 210, speed: 2.5, variant: 'cyan' },
+                    { x: 1120, y: 185, w: 32, h: 34, range: 130, speed: 2.2, variant: 'magenta' },
+                    { x: 1320, y: 280, w: 34, h: 35, range: 140, speed: 2.5, float: true, floatAmp: 24, floatFreq: 0.07, variant: 'gold' },
+                    { x: 1470, y: 415, w: 35, h: 35, range: 200, speed: 2.6, variant: 'gold' },
+                    { x: 1530, y: 255, w: 32, h: 34, range: 100, speed: 2.3, variant: 'cyan' },
+                    { x: 1710, y: 310, w: 34, h: 35, range: 150, speed: 2.6, float: true, floatAmp: 26, floatFreq: 0.06, variant: 'magenta' }
                 ],
                 checkpoints: [{ x: 1020, y: 350 }]
             },
@@ -740,7 +769,7 @@
                     name: 'Mictlantecuhtli',
                     icon: '👑', img: 'mictlan', imgH: 190,
                     x: 2450, y: 320, w: 85, h: 100,
-                    hp: 200, maxHp: 200,
+                    hp: 360, maxHp: 360,
                     attackTimer: 0,
                     type: 'MICTLAN'
                 },
@@ -762,8 +791,18 @@
                     { x: 1040, y: 150, type: 'pan' }
                 ],
                 enemies: [
-                    { x: 580, y: 385, w: 35, h: 35, range: 160, speed: 2.5 },
-                    { x: 970, y: 345, w: 35, h: 35, range: 180, speed: 2.8 }
+                    { x: 250, y: 445, w: 35, h: 35, range: 140, speed: 2.2, variant: 'magenta' },
+                    { x: 210, y: 295, w: 32, h: 34, range: 100, speed: 2.1, variant: 'gold' },
+                    { x: 410, y: 290, w: 34, h: 34, range: 120, speed: 2.4, float: true, floatAmp: 24, floatFreq: 0.06, variant: 'cyan' },
+                    { x: 570, y: 385, w: 35, h: 35, range: 180, speed: 2.5, variant: 'cyan' },
+                    { x: 635, y: 225, w: 32, h: 34, range: 115, speed: 2.3, variant: 'gold' },
+                    { x: 810, y: 255, w: 34, h: 35, range: 130, speed: 2.6, float: true, floatAmp: 28, floatFreq: 0.07, variant: 'magenta' },
+                    { x: 950, y: 345, w: 35, h: 35, range: 200, speed: 2.8, variant: 'gold' },
+                    { x: 1015, y: 165, w: 32, h: 34, range: 130, speed: 2.5, variant: 'cyan' },
+                    { x: 1200, y: 265, w: 35, h: 35, range: 140, speed: 2.7, float: true, floatAmp: 26, floatFreq: 0.07, variant: 'gold' },
+                    { x: 1340, y: 405, w: 35, h: 35, range: 190, speed: 2.9, variant: 'magenta' },
+                    { x: 1415, y: 245, w: 32, h: 34, range: 110, speed: 2.6, variant: 'cyan' },
+                    { x: 1590, y: 295, w: 35, h: 35, range: 160, speed: 2.9, float: true, floatAmp: 28, floatFreq: 0.08, variant: 'magenta' }
                 ],
                 checkpoints: [{ x: 950, y: 330 }]
             }
@@ -827,10 +866,14 @@
 
         let isGameStopped = false;
         let gameLoopId = null;
+        let lastFrameTime = 0;
+        let physicsAccumulator = 0;
 
         function stopAllGame() {
             isGameStopped = true;
             gameState = 'STOPPED';
+            lastFrameTime = 0;
+            physicsAccumulator = 0;
             try {
                 if (gameLoopId) {
                     cancelAnimationFrame(gameLoopId);
@@ -838,11 +881,12 @@
                 }
             } catch (e) {}
             try {
-                if (musicAudio) {
-                    musicAudio.pause();
-                    musicAudio.currentTime = 0;
+                const mAudio = document.getElementById('music-bruja');
+                if (mAudio) {
+                    mAudio.pause();
+                    mAudio.currentTime = 0;
                 }
-                const lAudio = document.getElementById('llorona-audio');
+                const lAudio = document.getElementById('sound-llorona');
                 if (lAudio) {
                     lAudio.pause();
                     lAudio.currentTime = 0;
@@ -850,9 +894,7 @@
                 if (audioCtx && audioCtx.state !== 'closed') {
                     audioCtx.suspend().catch(() => {});
                 }
-                if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel();
-                }
+                stopVoice();
             } catch (e) {}
         }
 
@@ -876,9 +918,19 @@
             }
         });
 
+        let hasDetectedTouch = false;
+        window.addEventListener('touchstart', () => {
+            if (!hasDetectedTouch) {
+                hasDetectedTouch = true;
+                updateTouchControlsVisibility();
+            }
+        }, { passive: true });
+
         function isAndroidOrMobileTouch() {
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-                   (('ontouchstart' in window) && window.innerWidth < 1024);
+            return hasDetectedTouch ||
+                   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                   (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) ||
+                   (('ontouchstart' in window || navigator.maxTouchPoints > 0) && window.innerWidth < 1280);
         }
 
         function updateTouchControlsVisibility() {
@@ -1185,8 +1237,32 @@
                 let angle = 0;
                 const speed = 12.0;
 
-                // DETECCIÓN AUTOMÁTICA DEL JEFE (INCLUYENDO JEFES FLOTANTES COMO LA LLORONA)
-                if (currentBoss && currentBoss.hp > 0) {
+                // DETECCIÓN AUTOMÁTICA DE FANTASMAS CERCANOS O DEL JEFE EN RANGO
+                let nearestGhost = null;
+                let nearestGhostDist = 420;
+                activeEnemies.forEach(e => {
+                    const gx = e.x + e.w / 2;
+                    const gy = e.y + e.h / 2;
+                    const d = Math.hypot(gx - startX, gy - startY);
+                    if (d < nearestGhostDist) {
+                        nearestGhostDist = d;
+                        nearestGhost = e;
+                    }
+                });
+
+                const inBossRange = currentBoss && currentBoss.hp > 0 && player.x > currentBoss.x - 620;
+                let homingToBoss = false;
+
+                if (nearestGhost && (!inBossRange || nearestGhostDist < 220)) {
+                    const gx = nearestGhost.x + nearestGhost.w / 2;
+                    const gy = nearestGhost.y + nearestGhost.h / 2;
+                    const dx = gx - startX;
+                    const dy = gy - startY;
+                    angle = Math.atan2(dy, dx);
+                    vx = Math.cos(angle) * speed;
+                    vy = Math.sin(angle) * speed;
+                    xolo.facingRight = (dx >= 0);
+                } else if (inBossRange) {
                     const bossCenterX = currentBoss.x + currentBoss.w / 2;
                     const bossCenterY = currentBoss.y + currentBoss.h / 2;
                     const dx = bossCenterX - startX;
@@ -1195,6 +1271,7 @@
                     vx = Math.cos(angle) * speed;
                     vy = Math.sin(angle) * speed;
                     xolo.facingRight = (dx >= 0);
+                    homingToBoss = true;
                 } else {
                     const dir = xolo.facingRight ? 1 : -1;
                     angle = dir > 0 ? 0 : Math.PI;
@@ -1202,7 +1279,7 @@
                     vy = 0;
                 }
 
-                // Generar Onda Sagrada de Ladrido que vuela directo hacia el jefe (arriba/diagonal)
+                // Generar Onda Sagrada de Ladrido que vuela directo hacia el fantasma o jefe
                 activeBarkWaves.push({
                     x: startX,
                     y: startY,
@@ -1211,7 +1288,7 @@
                     angle: angle,
                     radius: 14,
                     life: 75,
-                    isHomingToBoss: (currentBoss && currentBoss.hp > 0)
+                    isHomingToBoss: homingToBoss
                 });
             }
         }
@@ -1223,11 +1300,17 @@
             currentLevelIdx = levelIdx;
             lloronaPlayedThisLevel = false;
             currentLevel = levelsData[levelIdx];
+            lastFrameTime = 0;
+            physicsAccumulator = 0;
+
+            // Regenerar todas las vidas al iniciar o pasar de nivel
+            lives = 3;
 
             player.x = 160; player.y = 350;
             player.vx = 0; player.vy = 0;
             player.checkpointX = 160; player.checkpointY = 350;
             player.jumpCount = 0;
+            player.invulnerableTimer = 0;
 
             xolo.x = 120; xolo.y = 350;
             xolo.vx = 0; xolo.vy = 0;
@@ -1240,7 +1323,14 @@
             activeHitSparks = [];
 
             activeCollectibles = currentLevel.collectibles.map(c => ({ ...c, collected: false, w: 26, h: 26 }));
-            activeEnemies = currentLevel.enemies.map(e => ({ ...e, startX: e.x, dir: 1 }));
+            activeEnemies = currentLevel.enemies.map((e, idx) => ({
+                ...e,
+                startX: e.x,
+                startY: e.y,
+                dir: 1,
+                floatTimer: idx * 1.1,
+                variant: e.variant || 'cyan'
+            }));
             activeCheckpoints = currentLevel.checkpoints.map(cp => ({ ...cp, active: false, w: 30, h: 45 }));
 
             // Pétalos ambientales optimizados
@@ -1268,6 +1358,8 @@
 
         function startGame() {
             isGameStopped = false;
+            lastFrameTime = 0;
+            physicsAccumulator = 0;
             initAudio();
             startBackgroundMusic();
             unlockLloronaAudio();
@@ -1289,9 +1381,13 @@
 
             loadLevel(0); // si hay diálogo inicial, él pone DIALOGUE_PAUSE
             resizeCanvas();
-            if (!gameLoopId) {
-                gameLoop();
+            if (gameLoopId) {
+                cancelAnimationFrame(gameLoopId);
+                gameLoopId = null;
             }
+            lastFrameTime = 0;
+            physicsAccumulator = 0;
+            gameLoopId = requestAnimationFrame(gameLoop);
         }
 
         function retryCurrentLevel() {
@@ -1311,6 +1407,7 @@
         function nextLevel() {
             document.getElementById('screen-victory').classList.add('hidden');
             if (currentLevelIdx + 1 < levelsData.length) {
+                lives = 3;
                 loadLevel(currentLevelIdx + 1);
                 gameState = 'PLAYING';
                 updateTouchControlsVisibility();
@@ -1503,28 +1600,59 @@
                 }
             });
 
-            // 6. ENEMIGOS MENORES
-            activeEnemies.forEach(e => {
+            // 6. ENEMIGOS MENORES (FANTASMAS TERRESTRES Y FLOTANTES)
+            for (let ei = activeEnemies.length - 1; ei >= 0; ei--) {
+                const e = activeEnemies[ei];
                 e.x += e.speed * e.dir;
                 if (e.x > e.startX + e.range || e.x < e.startX) e.dir *= -1;
 
+                if (e.float) {
+                    e.floatTimer = (e.floatTimer || 0) + (e.floatFreq || 0.05);
+                    e.y = (e.startY !== undefined ? e.startY : e.y) + Math.sin(e.floatTimer) * (e.floatAmp || 20);
+                }
+
+                // Estela sutil de ectoplasma para fantasmas flotantes
+                if (e.float && Math.random() < 0.15) {
+                    activeHitSparks.push({
+                        x: e.x + e.w / 2 + (Math.random() - 0.5) * 10,
+                        y: e.y + e.h - 4,
+                        vx: -e.dir * 0.4,
+                        vy: 0.4,
+                        size: 2 + Math.random() * 1.5,
+                        color: e.variant === 'magenta' ? '#E040FB' : (e.variant === 'gold' ? '#FFD700' : '#00E5FF'),
+                        life: 12
+                    });
+                }
+
                 if (player.invulnerableTimer === 0 && checkAABB(player, e)) {
-                    if (player.vy > 0 && player.y + player.h - player.vy <= e.y + 12) {
-                        e.x = -9999;
-                        player.vy = player.jumpForce * 0.7;
+                    if (player.vy > 0 && player.y + player.h - player.vy <= e.y + 14) {
+                        for (let k = 0; k < 10; k++) {
+                            activeHitSparks.push({
+                                x: e.x + e.w / 2,
+                                y: e.y + e.h / 2,
+                                vx: (Math.random() - 0.5) * 6,
+                                vy: (Math.random() - 0.5) * 6,
+                                size: 3 + Math.random() * 2.5,
+                                color: e.variant === 'magenta' ? '#E040FB' : (e.variant === 'gold' ? '#FFD700' : '#00E5FF'),
+                                life: 18
+                            });
+                        }
+                        activeEnemies.splice(ei, 1);
+                        player.vy = player.jumpForce * 0.72;
                         score += 75;
                         playSound('collect');
+                        updateHUD();
                     } else {
                         playerHurt();
                     }
                 }
-            });
+            }
 
-            // 7. LÓGICA DE JEFES (ÁNIMAS LEGENDARIAS)
-            if (currentBoss && player.x > currentBoss.x - 550) {
+            // 7. LÓGICA DE JEFES (ÁNIMAS LEGENDARIAS CON MÚLTIPLES PATRONES DE ATAQUE Y FASES)
+            if (currentBoss && currentBoss.hp > 0 && player.x > currentBoss.x - 580) {
                 // Activar Barra de Vida del Jefe
                 const bossHud = document.getElementById('boss-hud');
-                if (bossHud.classList.contains('hidden')) {
+                if (bossHud && bossHud.classList.contains('hidden')) {
                     bossHud.classList.remove('hidden');
                     document.getElementById('boss-name').innerText = currentBoss.name;
                     updateBossHUD();
@@ -1537,31 +1665,626 @@
                     if (currentLevelIdx === 2) startDialogueSequence('boss_3_start');
                 }
 
-                // Ataque del Jefe (Disparar orbes de sombra)
-                currentBoss.attackTimer++;
-                if (currentBoss.attackTimer > 90) {
-                    currentBoss.attackTimer = 0;
-                    activeBossProjectiles.push({
-                        x: currentBoss.x,
-                        y: currentBoss.y + 20,
-                        vx: -4.5,
-                        vy: Math.sin(Date.now() / 200) * 1.5,
-                        size: 14
-                    });
+                if (!currentBoss.baseX) currentBoss.baseX = currentBoss.x;
+                if (!currentBoss.baseY) currentBoss.baseY = currentBoss.y;
+                if (currentBoss.patternStep === undefined) currentBoss.patternStep = 0;
+                if (currentBoss.attackBannerTimer > 0) currentBoss.attackBannerTimer--;
+
+                const isEnraged = currentBoss.hp <= currentBoss.maxHp * 0.5;
+                if (isEnraged && !currentBoss.enragedAnnounced) {
+                    currentBoss.enragedAnnounced = true;
+                    currentBoss.attackName = '¡FURIA ESPECTRAL!';
+                    currentBoss.attackBannerTimer = 90;
+                }
+
+                // Contar cuántos fantasmas invocados hay activos en la arena del jefe
+                const arenaEnemiesCount = activeEnemies.filter(e => e.x > currentBoss.baseX - 520).length;
+
+                // ============================================
+                // PATRONES ESPECÍFICOS DE MOVIMIENTO Y ATAQUE
+                // ============================================
+                if (currentBoss.type === 'LLORONA') {
+                    // Movimiento espectral ondulante en el aire (más ágil en furia)
+                    currentBoss.animClock = (currentBoss.animClock || 0) + (isEnraged ? 0.05 : 0.035);
+                    const targetOffsetY = currentBoss.swoopOffsetY || 0;
+                    if (currentBoss.swoopOffsetY) currentBoss.swoopOffsetY *= 0.92;
+                    currentBoss.x = currentBoss.baseX + Math.sin(currentBoss.animClock) * (isEnraged ? 65 : 45);
+                    currentBoss.y = currentBoss.baseY + Math.cos(currentBoss.animClock * 1.6) * 26 + targetOffsetY;
+
+                    const attackCooldown = isEnraged ? 54 : 74;
+                    currentBoss.attackTimer = (currentBoss.attackTimer || 0) + 1;
+
+                    if (currentBoss.attackTimer >= attackCooldown) {
+                        currentBoss.attackTimer = 0;
+                        const step = currentBoss.patternStep % 6;
+                        currentBoss.patternStep++;
+                        playSound('bossAttack');
+
+                        if (step === 0) {
+                            // Patrón 1: Lágrimas Espectrales Ondulantes Dobles (Cruzadas)
+                            currentBoss.attackName = '¡LÁGRIMAS ONDULANTES!';
+                            currentBoss.attackBannerTimer = 55;
+                            activeBossProjectiles.push({
+                                x: currentBoss.x - 10,
+                                y: currentBoss.y + 30,
+                                vx: -4.4,
+                                vy: 0,
+                                waveFreq: 0.12,
+                                waveAmp: 3.0,
+                                waveTimer: 0,
+                                size: 14,
+                                color: '#00F5FF',
+                                type: 'tear',
+                                trailColor: '#00E5FF'
+                            });
+                            activeBossProjectiles.push({
+                                x: currentBoss.x - 10,
+                                y: currentBoss.y + 45,
+                                vx: -4.0,
+                                vy: 0,
+                                waveFreq: 0.12,
+                                waveAmp: -3.0,
+                                waveTimer: 0,
+                                size: 13,
+                                color: '#38BDF8',
+                                type: 'tear',
+                                trailColor: '#0284C7'
+                            });
+                        } else if (step === 1) {
+                            // Patrón 2: Doble Ola de Lamento (Suelo y Media Altura)
+                            currentBoss.attackName = '¡MAREA DE LAMENTOS!';
+                            currentBoss.attackBannerTimer = 55;
+                            activeBossProjectiles.push({
+                                x: currentBoss.x - 15,
+                                y: 438,
+                                vx: -5.4,
+                                vy: 0,
+                                size: 17,
+                                color: '#38BDF8',
+                                type: 'wave',
+                                trailColor: '#0284C7'
+                            });
+                            activeBossProjectiles.push({
+                                x: currentBoss.x + 25,
+                                y: 365,
+                                vx: -4.6,
+                                vy: 0,
+                                size: 15,
+                                color: '#00F5FF',
+                                type: 'tear',
+                                trailColor: '#00E5FF'
+                            });
+                        } else if (step === 2) {
+                            // Patrón 3: Canto Banshee en Abanico de 5 Puntas
+                            currentBoss.attackName = '¡GRITO DE LA LLORONA!';
+                            currentBoss.attackBannerTimer = 55;
+                            const angles = isEnraged ? [-0.38, -0.19, 0, 0.19, 0.38] : [-0.28, -0.14, 0, 0.14, 0.28];
+                            angles.forEach(ang => {
+                                const spd = 4.3;
+                                activeBossProjectiles.push({
+                                    x: currentBoss.x - 10,
+                                    y: currentBoss.y + 35,
+                                    vx: -Math.cos(ang) * spd,
+                                    vy: Math.sin(ang) * spd,
+                                    size: 13,
+                                    color: '#67E8F9',
+                                    type: 'tear',
+                                    trailColor: '#00F5FF'
+                                });
+                            });
+                        } else if (step === 3) {
+                            // Patrón 4: Tormenta de Llanto Celestial (Lluvia vertical de lágrimas)
+                            currentBoss.attackName = '¡LLUVIA DE PENAS!';
+                            currentBoss.attackBannerTimer = 55;
+                            const baseTargetX = Math.max(cameraX + 90, Math.min(currentBoss.x - 50, player.x));
+                            [-90, -25, 45, 115].forEach((offset, idx) => {
+                                activeBossProjectiles.push({
+                                    x: baseTargetX + offset,
+                                    y: -15 - idx * 28,
+                                    vx: -0.3,
+                                    vy: 4.8,
+                                    size: 14,
+                                    color: '#00F5FF',
+                                    type: 'sky',
+                                    trailColor: '#38BDF8'
+                                });
+                            });
+                        } else if (step === 4) {
+                            // Patrón 5: Invocación de Ánima en Pena + Orbes Protectoras
+                            currentBoss.attackName = '¡ÁNIMAS EN PENA!';
+                            currentBoss.attackBannerTimer = 55;
+                            if (arenaEnemiesCount < 2) {
+                                activeEnemies.push({
+                                    x: currentBoss.x - 40,
+                                    y: 340,
+                                    startX: currentBoss.baseX - 380,
+                                    startY: 340,
+                                    w: 32,
+                                    h: 35,
+                                    range: 320,
+                                    speed: 2.1,
+                                    dir: -1,
+                                    float: true,
+                                    floatAmp: 24,
+                                    floatFreq: 0.06,
+                                    floatTimer: 0,
+                                    variant: 'cyan'
+                                });
+                            }
+                            [-0.2, 0.2].forEach(vyVal => {
+                                activeBossProjectiles.push({
+                                    x: currentBoss.x - 15,
+                                    y: currentBoss.y + 35,
+                                    vx: -4.5,
+                                    vy: vyVal * 4,
+                                    size: 14,
+                                    color: '#A5F3FC',
+                                    type: 'orb',
+                                    trailColor: '#06B6D4'
+                                });
+                            });
+                        } else {
+                            // Patrón 6: Descenso Espectral y Esfera Buscadora Helada
+                            currentBoss.attackName = '¡ESFERA DEL OLVIDO!';
+                            currentBoss.attackBannerTimer = 55;
+                            currentBoss.swoopOffsetY = 95;
+                            activeBossProjectiles.push({
+                                x: currentBoss.x - 15,
+                                y: currentBoss.y + 50,
+                                vx: -3.9,
+                                vy: 0,
+                                homing: true,
+                                size: 18,
+                                color: '#22D3EE',
+                                type: 'ghost_orb',
+                                trailColor: '#0891B2'
+                            });
+                        }
+                    }
+                } else if (currentBoss.type === 'CHARRO') {
+                    // Movimiento terrestre de patrulla desafiante y saltos ecuestres
+                    currentBoss.animClock = (currentBoss.animClock || 0) + (isEnraged ? 0.045 : 0.03);
+                    if (currentBoss.jumpOffsetY) {
+                        currentBoss.jumpOffsetY += currentBoss.jumpVy || 0;
+                        currentBoss.jumpVy = (currentBoss.jumpVy || 0) + 0.45;
+                        if (currentBoss.jumpOffsetY >= 0) {
+                            currentBoss.jumpOffsetY = 0;
+                            currentBoss.jumpVy = 0;
+                        }
+                    }
+                    currentBoss.x = currentBoss.baseX + Math.sin(currentBoss.animClock) * (isEnraged ? 55 : 35);
+                    currentBoss.y = currentBoss.baseY + (currentBoss.jumpOffsetY || 0);
+
+                    const attackCooldown = isEnraged ? 50 : 70;
+                    currentBoss.attackTimer = (currentBoss.attackTimer || 0) + 1;
+
+                    if (currentBoss.attackTimer >= attackCooldown) {
+                        currentBoss.attackTimer = 0;
+                        const step = currentBoss.patternStep % 6;
+                        currentBoss.patternStep++;
+                        playSound('bossAttack');
+
+                        if (step === 0) {
+                            // Patrón 1: Monedas de Oro Maldito Rebotadoras en Arco Parabólico
+                            currentBoss.attackName = '¡ORO MALDITO!';
+                            currentBoss.attackBannerTimer = 55;
+                            const coinSpeeds = isEnraged ? [-4.4, -3.3, -2.3] : [-4.2, -2.9];
+                            coinSpeeds.forEach((vxVal, idx) => {
+                                activeBossProjectiles.push({
+                                    x: currentBoss.x - 10,
+                                    y: currentBoss.y + 15,
+                                    vx: vxVal,
+                                    vy: -5.5 - idx * 0.6,
+                                    gravity: 0.19,
+                                    bounces: 1,
+                                    groundY: 438,
+                                    size: 14,
+                                    color: '#FFD700',
+                                    type: 'coin',
+                                    rot: 0,
+                                    rotSpeed: 0.28,
+                                    trailColor: '#F59E0B'
+                                });
+                            });
+                        } else if (step === 1) {
+                            // Patrón 2: Estampida de Llamaradas de Azufre (Doble ola escalonada)
+                            currentBoss.attackName = '¡FUEGO DE AZUFRE!';
+                            currentBoss.attackBannerTimer = 55;
+                            activeBossProjectiles.push({
+                                x: currentBoss.x - 20,
+                                y: 440,
+                                vx: -6.4,
+                                vy: 0,
+                                size: 18,
+                                color: '#FF3D00',
+                                type: 'fire',
+                                trailColor: '#EF4444'
+                            });
+                            activeBossProjectiles.push({
+                                x: currentBoss.x + 35,
+                                y: 375,
+                                vx: -5.2,
+                                vy: 0,
+                                waveFreq: 0.15,
+                                waveAmp: 2.2,
+                                waveTimer: 0,
+                                size: 15,
+                                color: '#F97316',
+                                type: 'fire',
+                                trailColor: '#F59E0B'
+                            });
+                        } else if (step === 2) {
+                            // Patrón 3: Lazo de Sombra Boomerang + Espuelas
+                            currentBoss.attackName = '¡LAZO DEL CHARRO!';
+                            currentBoss.attackBannerTimer = 55;
+                            activeBossProjectiles.push({
+                                x: currentBoss.x - 15,
+                                y: currentBoss.y + 28,
+                                vx: -6.2,
+                                vy: -0.4,
+                                boomerangAccelX: 0.11,
+                                size: 17,
+                                color: '#FBBF24',
+                                type: 'lasso',
+                                rot: 0,
+                                rotSpeed: 0.35,
+                                trailColor: '#D97706'
+                            });
+                            activeBossProjectiles.push({
+                                x: currentBoss.x - 10,
+                                y: 438,
+                                vx: -4.8,
+                                vy: 0,
+                                size: 14,
+                                color: '#EA580C',
+                                type: 'orb',
+                                trailColor: '#DC2626'
+                            });
+                        } else if (step === 3) {
+                            // Patrón 4: Descarga de Pistola de Sombras en Abanico
+                            currentBoss.attackName = '¡DISPARO SOMBRÍO!';
+                            currentBoss.attackBannerTimer = 55;
+                            [-0.3, -0.1, 0.08, 0.25].forEach(ang => {
+                                const spd = 5.4;
+                                activeBossProjectiles.push({
+                                    x: currentBoss.x - 15,
+                                    y: currentBoss.y + 32,
+                                    vx: -Math.cos(ang) * spd,
+                                    vy: Math.sin(ang) * spd,
+                                    size: 13,
+                                    color: '#F59E0B',
+                                    type: 'orb',
+                                    trailColor: '#EF4444'
+                                });
+                            });
+                        } else if (step === 4) {
+                            // Patrón 5: Salto Ecuestre Fantasma + Invocación de Espectro Dorado
+                            currentBoss.attackName = '¡GALOPE ESPECTRAL!';
+                            currentBoss.attackBannerTimer = 55;
+                            currentBoss.jumpOffsetY = -1;
+                            currentBoss.jumpVy = -8.5;
+                            if (arenaEnemiesCount < 2) {
+                                activeEnemies.push({
+                                    x: currentBoss.x - 30,
+                                    y: 415,
+                                    startX: currentBoss.baseX - 420,
+                                    startY: 415,
+                                    w: 34,
+                                    h: 35,
+                                    range: 360,
+                                    speed: 2.5,
+                                    dir: -1,
+                                    variant: 'gold'
+                                });
+                            }
+                            activeBossProjectiles.push({
+                                x: currentBoss.x - 15,
+                                y: 438,
+                                vx: -5.8,
+                                vy: 0,
+                                size: 17,
+                                color: '#FFD700',
+                                type: 'wave',
+                                trailColor: '#F59E0B'
+                            });
+                        } else {
+                            // Patrón 6: Torbellino de Brasas y Moneda Buscadora
+                            currentBoss.attackName = '¡PACTO DE SANGRE!';
+                            currentBoss.attackBannerTimer = 55;
+                            activeBossProjectiles.push({
+                                x: currentBoss.x - 15,
+                                y: currentBoss.y + 20,
+                                vx: -4.2,
+                                vy: 0,
+                                homing: true,
+                                size: 16,
+                                color: '#EF4444',
+                                type: 'coin',
+                                rot: 0,
+                                rotSpeed: 0.3,
+                                trailColor: '#FFD700'
+                            });
+                            [-60, 30].forEach(offset => {
+                                activeBossProjectiles.push({
+                                    x: Math.max(cameraX + 100, player.x + offset),
+                                    y: -20,
+                                    vx: -0.3,
+                                    vy: 5.2,
+                                    size: 15,
+                                    color: '#F97316',
+                                    type: 'sky',
+                                    trailColor: '#EF4444'
+                                });
+                            });
+                        }
+                    }
+                } else if (currentBoss.type === 'MICTLAN') {
+                    // Levitación mística del Señor Supremo del Inframundo
+                    currentBoss.animClock = (currentBoss.animClock || 0) + (isEnraged ? 0.055 : 0.04);
+                    const teleY = currentBoss.teleOffsetY || 0;
+                    if (currentBoss.teleOffsetY) currentBoss.teleOffsetY *= 0.9;
+                    currentBoss.x = currentBoss.baseX + Math.sin(currentBoss.animClock * 0.8) * (isEnraged ? 50 : 28);
+                    currentBoss.y = currentBoss.baseY + Math.sin(currentBoss.animClock) * 20 + teleY;
+
+                    const attackCooldown = isEnraged ? 46 : 64;
+                    currentBoss.attackTimer = (currentBoss.attackTimer || 0) + 1;
+
+                    if (currentBoss.attackTimer >= attackCooldown) {
+                        currentBoss.attackTimer = 0;
+                        const step = currentBoss.patternStep % 7;
+                        currentBoss.patternStep++;
+                        playSound('bossAttack');
+
+                        if (step === 0) {
+                            // Patrón 1: Escuadrón de Cráneos de Obsidiana Teledirigidos
+                            currentBoss.attackName = '¡CRÁNEOS DE OBSIDIANA!';
+                            currentBoss.attackBannerTimer = 55;
+                            const yOffsets = isEnraged ? [15, 45, 75] : [20, 55];
+                            yOffsets.forEach((yo, idx) => {
+                                activeBossProjectiles.push({
+                                    x: currentBoss.x - 20 + idx * 18,
+                                    y: currentBoss.y + yo,
+                                    vx: -4.4 - idx * 0.3,
+                                    vy: 0,
+                                    homing: true,
+                                    size: 18,
+                                    color: '#A855F7',
+                                    type: 'skull',
+                                    trailColor: '#9333EA'
+                                });
+                            });
+                        } else if (step === 1) {
+                            // Patrón 2: Tormenta del Noveno Inframundo (Lluvia de Almas)
+                            currentBoss.attackName = '¡TORMENTA DEL MICTLÁN!';
+                            currentBoss.attackBannerTimer = 55;
+                            const targetBaseX = Math.max(cameraX + 80, Math.min(currentBoss.x - 60, player.x));
+                            [-110, -45, 20, 85, 150].forEach((offset, idx) => {
+                                activeBossProjectiles.push({
+                                    x: targetBaseX + offset,
+                                    y: -20 - (idx % 2) * 30,
+                                    vx: -0.4,
+                                    vy: 5.6,
+                                    size: 15,
+                                    color: '#E040FB',
+                                    type: 'sky',
+                                    trailColor: '#C026D3'
+                                });
+                            });
+                        } else if (step === 2) {
+                            // Patrón 3: Nova Imperial de Cempasúchil Oscuro (Abanico de 6 puntas)
+                            currentBoss.attackName = '¡NOVA DEL INFRAMUNDO!';
+                            currentBoss.attackBannerTimer = 55;
+                            [-0.4, -0.24, -0.08, 0.08, 0.24, 0.4].forEach((ang, idx) => {
+                                const spd = 4.6;
+                                activeBossProjectiles.push({
+                                    x: currentBoss.x - 20,
+                                    y: currentBoss.y + 40,
+                                    vx: -Math.cos(ang) * spd,
+                                    vy: Math.sin(ang) * spd,
+                                    size: 14,
+                                    color: idx % 2 === 0 ? '#FF9D00' : '#A855F7',
+                                    type: 'orb',
+                                    trailColor: idx % 2 === 0 ? '#F59E0B' : '#9333EA'
+                                });
+                            });
+                        } else if (step === 3) {
+                            // Patrón 4: Huesos Sagrados Boomerang + Pulso de Choque
+                            currentBoss.attackName = '¡GUADAÑA ÓSEA!';
+                            currentBoss.attackBannerTimer = 55;
+                            activeBossProjectiles.push({
+                                x: currentBoss.x - 20,
+                                y: currentBoss.y + 20,
+                                vx: -6.4,
+                                vy: -0.3,
+                                boomerangAccelX: 0.11,
+                                size: 17,
+                                color: '#FDE047',
+                                type: 'bone',
+                                rot: 0,
+                                rotSpeed: 0.35,
+                                trailColor: '#A855F7'
+                            });
+                            activeBossProjectiles.push({
+                                x: currentBoss.x - 20,
+                                y: 420,
+                                vx: -5.4,
+                                vy: 0,
+                                size: 16,
+                                color: '#F59E0B',
+                                type: 'wave',
+                                trailColor: '#D97706'
+                            });
+                        } else if (step === 4) {
+                            // Patrón 5: Meteoro de Sangre y Obsidiana (Se divide al impactar el suelo)
+                            currentBoss.attackName = '¡METEORO DE OBSIDIANA!';
+                            currentBoss.attackBannerTimer = 55;
+                            activeBossProjectiles.push({
+                                x: currentBoss.x - 25,
+                                y: currentBoss.y + 10,
+                                vx: -4.2,
+                                vy: -5.2,
+                                gravity: 0.22,
+                                splitOnGround: true,
+                                groundY: 418,
+                                size: 22,
+                                color: '#EC4899',
+                                type: 'meteor',
+                                rot: 0,
+                                rotSpeed: 0.2,
+                                trailColor: '#A855F7'
+                            });
+                        } else if (step === 5) {
+                            // Patrón 6: Legión de Espectros del Mictlán
+                            currentBoss.attackName = '¡LEGIÓN DE ESPECTROS!';
+                            currentBoss.attackBannerTimer = 55;
+                            if (arenaEnemiesCount < 3) {
+                                activeEnemies.push({
+                                    x: currentBoss.x - 40,
+                                    y: 300,
+                                    startX: currentBoss.baseX - 460,
+                                    startY: 300,
+                                    w: 34,
+                                    h: 35,
+                                    range: 380,
+                                    speed: 2.6,
+                                    dir: -1,
+                                    float: true,
+                                    floatAmp: 28,
+                                    floatFreq: 0.07,
+                                    floatTimer: 0,
+                                    variant: 'magenta'
+                                });
+                            }
+                            [-1, 1].forEach(dirSign => {
+                                activeBossProjectiles.push({
+                                    x: currentBoss.x - 20,
+                                    y: currentBoss.y + 40,
+                                    vx: -4.8,
+                                    vy: 0,
+                                    waveFreq: 0.14,
+                                    waveAmp: 3.2 * dirSign,
+                                    waveTimer: 0,
+                                    size: 14,
+                                    color: '#C084FC',
+                                    type: 'orb',
+                                    trailColor: '#9333EA'
+                                });
+                            });
+                        } else {
+                            // Patrón 7: Juicio Dimensional (Cambio de altura + Ráfaga Dirigida)
+                            currentBoss.attackName = '¡JUICIO DE MICTLANTECUHTLI!';
+                            currentBoss.attackBannerTimer = 55;
+                            currentBoss.teleOffsetY = -85;
+                            const dx = (player.x + player.w / 2) - (currentBoss.x - 10);
+                            const dy = (player.y + player.h / 2) - (currentBoss.y - 40);
+                            const baseAng = Math.atan2(dy, dx);
+                            [-0.14, 0, 0.14].forEach(offsetAng => {
+                                const spd = 5.6;
+                                activeBossProjectiles.push({
+                                    x: currentBoss.x - 15,
+                                    y: currentBoss.y - 30,
+                                    vx: Math.cos(baseAng + offsetAng) * spd,
+                                    vy: Math.sin(baseAng + offsetAng) * spd,
+                                    size: 15,
+                                    color: '#00F5FF',
+                                    type: 'skull',
+                                    trailColor: '#E040FB'
+                                });
+                            });
+                        }
+                    }
                 }
             }
 
-            // Mover Proyectiles del Jefe y Colisión
-            activeBossProjectiles.forEach((p, idx) => {
+            // Mover Proyectiles del Jefe y Colisión con limpieza fuera de pantalla
+            for (let i = activeBossProjectiles.length - 1; i >= 0; i--) {
+                const p = activeBossProjectiles[i];
+
+                // Físicas específicas según tipo
+                if (p.gravity) {
+                    p.vy += p.gravity;
+                }
+                if (p.boomerangAccelX) {
+                    p.vx += p.boomerangAccelX;
+                }
+                if (p.waveFreq) {
+                    p.waveTimer = (p.waveTimer || 0) + 1;
+                    p.y += Math.sin(p.waveTimer * p.waveFreq) * p.waveAmp;
+                }
+                if (p.homing) {
+                    const targetY = player.y + player.h / 2;
+                    const diffY = targetY - p.y;
+                    p.vy += Math.sign(diffY) * Math.min(0.24, Math.abs(diffY) * 0.04);
+                    p.vy = Math.max(-2.6, Math.min(2.6, p.vy));
+                }
+                if (p.rotSpeed) {
+                    p.rot = (p.rot || 0) + p.rotSpeed;
+                }
+
                 p.x += p.vx;
                 p.y += p.vy;
+
+                // Rebote en el suelo (para monedas malditas)
+                if (p.bounces && p.bounces > 0 && p.y >= (p.groundY || 438)) {
+                    p.y = p.groundY || 438;
+                    p.vy = -Math.abs(p.vy) * 0.78;
+                    p.bounces--;
+                }
+
+                // División explosiva al tocar el suelo (para el Meteoro de Obsidiana)
+                if (p.splitOnGround && p.y >= (p.groundY || 418)) {
+                    for (let k = 0; k < 12; k++) {
+                        activeHitSparks.push({
+                            x: p.x,
+                            y: p.groundY || 418,
+                            vx: (Math.random() - 0.5) * 7,
+                            vy: -Math.random() * 6,
+                            size: 3.5 + Math.random() * 3,
+                            color: k % 2 === 0 ? '#EC4899' : '#FFD700',
+                            life: 20
+                        });
+                    }
+                    [-5.2, 5.2].forEach(vxSplit => {
+                        activeBossProjectiles.push({
+                            x: p.x,
+                            y: (p.groundY || 418) + 4,
+                            vx: vxSplit,
+                            vy: 0,
+                            size: 14,
+                            color: '#F59E0B',
+                            type: 'wave',
+                            trailColor: '#EC4899'
+                        });
+                    });
+                    activeBossProjectiles.splice(i, 1);
+                    continue;
+                }
+
+                // Estela de partículas temáticas
+                if (Math.random() < 0.45) {
+                    activeHitSparks.push({
+                        x: p.x + (Math.random() - 0.5) * 6,
+                        y: p.y + (Math.random() - 0.5) * 6,
+                        vx: -p.vx * 0.15,
+                        vy: -p.vy * 0.15,
+                        size: 2.5 + Math.random() * 2,
+                        color: p.trailColor || p.color || '#00e5ff',
+                        life: 12
+                    });
+                }
 
                 // Colisión con Calaverita
                 if (player.invulnerableTimer === 0 && checkAABB(player, { x: p.x - p.size, y: p.y - p.size, w: p.size * 2, h: p.size * 2 })) {
                     playerHurt();
-                    activeBossProjectiles.splice(idx, 1);
+                    activeBossProjectiles.splice(i, 1);
+                    continue;
                 }
-            });
+
+                // Limpieza fuera de pantalla
+                if (p.x < cameraX - 140 || p.x > cameraX + canvas.width + 200 || p.y > canvas.height + 150 || p.y < -150) {
+                    activeBossProjectiles.splice(i, 1);
+                }
+            }
 
             // 7B. ACTUALIZAR ONDAS DE LADRIDO DEL XOLO (ATAQUE DIRECTO A JEFES FLOTANTES COMO LA LLORONA)
             for (let i = activeBarkWaves.length - 1; i >= 0; i--) {
@@ -1728,6 +2451,8 @@
 
         function levelCompleted() {
             gameState = 'VICTORY';
+            lives = 3;
+            updateHUD();
             updateTouchControlsVisibility();
             playSound('collect');
 
@@ -1736,6 +2461,7 @@
 
             if (currentLevelIdx + 1 < levelsData.length) {
                 document.getElementById('victory-heading').innerText = '¡ÁNIMA LIBERADA!';
+                document.getElementById('victory-subtext').innerText = 'Tu Xoloitzcuintle y tú han liberado el camino del Mictlán. ¡Tus 3 vidas se han regenerado!';
                 btnNext.innerHTML = 'Siguiente Nivel <i class="fa-solid fa-arrow-right ml-2"></i>';
             } else {
                 document.getElementById('victory-heading').innerText = '¡PAZ EN EL MICTLÁN!';
@@ -1749,7 +2475,11 @@
         function updateHUD() {
             let livesHtml = '';
             for (let i = 0; i < 3; i++) {
-                livesHtml += (i < lives) ? '💀' : '<span class="opacity-30">💀</span>';
+                if (i < lives) {
+                    livesHtml += '<img src="icono_vida_calaverita.png" alt="Vida" class="w-5 h-6 md:w-6 md:h-7 object-contain drop-shadow-[0_0_6px_rgba(255,157,0,0.8)] transition-all duration-200" />';
+                } else {
+                    livesHtml += '<img src="icono_vida_calaverita.png" alt="Vida perdida" class="w-5 h-6 md:w-6 md:h-7 object-contain opacity-25 grayscale transition-all duration-200" />';
+                }
             }
             document.getElementById('hud-lives').innerHTML = livesHtml;
             document.getElementById('hud-level-name').innerText = currentLevel ? currentLevel.name.split(':')[0] : 'Nivel 1';
@@ -1870,20 +2600,37 @@
                 }
             });
 
-            // 4. ENEMIGOS MENORES
+            // 4. ENEMIGOS MENORES (FANTASMAS TERRESTRES Y FLOTANTES CON VARIANTES)
             activeEnemies.forEach(e => {
                 ctx.save();
+                const glowColor = e.variant === 'magenta' ? '#E040FB' : (e.variant === 'gold' ? '#FFD700' : '#00E5FF');
+                const centerX = e.x + e.w / 2;
+                const centerY = e.y + e.h / 2;
+
+                // Halo espectral alrededor del fantasma
+                const ghostAura = ctx.createRadialGradient(centerX, centerY, 4, centerX, centerY, 26);
+                ghostAura.addColorStop(0, glowColor + '55');
+                ghostAura.addColorStop(1, 'transparent');
+                ctx.fillStyle = ghostAura;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 26, 0, Math.PI * 2);
+                ctx.fill();
+
                 if (imgReady("espectro")) {
                     const im = IMGS.espectro;
-                    const dh = 48;
+                    const dh = e.float ? 52 : 48;
                     const dw = dh * im.naturalWidth / im.naturalHeight;
-                    ctx.shadowColor = "#00e5ff";
-                    ctx.shadowBlur = 12;
-                    ctx.drawImage(im, e.x + e.w / 2 - dw / 2, e.y + e.h - dh + Math.sin(time * 4 + e.startX) * 3, dw, dh);
+                    ctx.translate(centerX, e.y + e.h - dh / 2 + Math.sin(time * 4 + e.startX) * 3);
+                    if (e.dir > 0) ctx.scale(-1, 1);
+                    ctx.shadowColor = glowColor;
+                    ctx.shadowBlur = e.float ? 18 : 12;
+                    ctx.drawImage(im, -dw / 2, -dh / 2, dw, dh);
                 } else {
                     ctx.font = "28px sans-serif";
                     ctx.textAlign = "center";
-                    ctx.fillText("👹", e.x + e.w / 2, e.y + e.h / 1.2);
+                    ctx.shadowColor = glowColor;
+                    ctx.shadowBlur = 12;
+                    ctx.fillText(e.float ? "👻" : "👹", centerX, e.y + e.h / 1.2);
                 }
                 ctx.restore();
             });
@@ -1894,16 +2641,18 @@
                 const bob = currentBoss.float ? Math.sin(time * 3) * 7 : 0;
                 const bossCenterX = currentBoss.x + currentBoss.w / 2;
                 const bossCenterY = currentBoss.y + currentBoss.h / 2 + bob;
+                const isEnraged = currentBoss.hp <= currentBoss.maxHp * 0.5;
 
-                // Fuego espiritual y resplandor
-                const auraColor = currentBoss.type === "CHARRO" ? "#FF9D00" : (currentBoss.type === "MICTLAN" ? "#A855F7" : "#00E5FF");
-                const spiritGrad = ctx.createRadialGradient(bossCenterX, bossCenterY, 15, bossCenterX, bossCenterY, 80);
-                spiritGrad.addColorStop(0, auraColor + "55");
-                spiritGrad.addColorStop(0.6, auraColor + "15");
+                // Fuego espiritual y resplandor (intensificado en Modo Furia)
+                const auraColor = isEnraged ? "#FF1744" : (currentBoss.type === "CHARRO" ? "#FF9D00" : (currentBoss.type === "MICTLAN" ? "#A855F7" : "#00E5FF"));
+                const auraRadius = isEnraged ? 96 + Math.sin(time * 8) * 10 : 80;
+                const spiritGrad = ctx.createRadialGradient(bossCenterX, bossCenterY, 15, bossCenterX, bossCenterY, auraRadius);
+                spiritGrad.addColorStop(0, auraColor + "66");
+                spiritGrad.addColorStop(0.6, auraColor + "22");
                 spiritGrad.addColorStop(1, "transparent");
                 ctx.fillStyle = spiritGrad;
                 ctx.beginPath();
-                ctx.arc(bossCenterX, bossCenterY, 80, 0, Math.PI * 2);
+                ctx.arc(bossCenterX, bossCenterY, auraRadius, 0, Math.PI * 2);
                 ctx.fill();
 
                 if (currentBoss.img && imgReady(currentBoss.img)) {
@@ -1911,7 +2660,7 @@
                     const dh = currentBoss.imgH;
                     const dw = dh * im.naturalWidth / im.naturalHeight;
                     ctx.shadowColor = auraColor;
-                    ctx.shadowBlur = 24;
+                    ctx.shadowBlur = isEnraged ? 32 : 24;
                     ctx.drawImage(im, bossCenterX - dw / 2, currentBoss.y + currentBoss.h - dh + bob, dw, dh);
                 } else {
                     ctx.font = "60px sans-serif";
@@ -1920,19 +2669,177 @@
                     ctx.shadowBlur = 20;
                     ctx.fillText(currentBoss.icon, bossCenterX, currentBoss.y + currentBoss.h / 1.1 + bob);
                 }
+
+                // Cartel flotante del ataque actual del jefe
+                if (currentBoss.attackBannerTimer > 0 && currentBoss.attackName) {
+                    const bannerAlpha = Math.min(1, currentBoss.attackBannerTimer / 20);
+                    ctx.save();
+                    ctx.globalAlpha = bannerAlpha;
+                    ctx.font = "bold 13px Poppins, sans-serif";
+                    ctx.textAlign = "center";
+                    const textY = currentBoss.y - 28 + bob;
+                    ctx.fillStyle = "rgba(15, 4, 23, 0.85)";
+                    const textW = ctx.measureText(currentBoss.attackName).width + 20;
+                    ctx.fillRect(bossCenterX - textW / 2, textY - 15, textW, 22);
+                    ctx.strokeStyle = auraColor;
+                    ctx.lineWidth = 1.5;
+                    ctx.strokeRect(bossCenterX - textW / 2, textY - 15, textW, 22);
+                    ctx.fillStyle = "#FFD700";
+                    ctx.shadowColor = auraColor;
+                    ctx.shadowBlur = 8;
+                    ctx.fillText(currentBoss.attackName, bossCenterX, textY);
+                    ctx.restore();
+                }
                 ctx.restore();
             }
 
-            // Proyectiles del Jefe
+            // Proyectiles del Jefe con estética temática única por proyectil
             activeBossProjectiles.forEach(p => {
                 ctx.save();
-                const pColor = currentBoss && currentBoss.type === "CHARRO" ? "#FFD700" : "#00e5ff";
+                const pColor = p.color || (currentBoss && currentBoss.type === "CHARRO" ? "#FFD700" : "#00e5ff");
                 ctx.shadowColor = pColor;
                 ctx.shadowBlur = 18;
-                ctx.fillStyle = pColor;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
+
+                if (p.type === 'coin') {
+                    // Moneda de oro maldito del Charro
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rot || 0);
+                    ctx.fillStyle = p.color || "#FFD700";
+                    ctx.beginPath();
+                    ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = "#B45309";
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, p.size * 0.7, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.fillStyle = "#F59E0B";
+                    ctx.fillRect(-2, -p.size * 0.5, 4, p.size);
+                } else if (p.type === 'lasso') {
+                    // Lazo giratorio boomerang del Charro Negro
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rot || 0);
+                    ctx.strokeStyle = "#FFD700";
+                    ctx.lineWidth = 3.5;
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, p.size * 1.2, p.size * 0.75, 0, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.strokeStyle = "#EA580C";
+                    ctx.lineWidth = 1.5;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, p.size * 0.5, 0, Math.PI * 2);
+                    ctx.stroke();
+                } else if (p.type === 'bone') {
+                    // Hueso / Guadaña Ósea giratoria de Mictlantecuhtli
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rot || 0);
+                    ctx.fillStyle = "#FEF08A";
+                    ctx.fillRect(-p.size * 0.85, -3.5, p.size * 1.7, 7);
+                    [-p.size * 0.85, p.size * 0.85].forEach(bx => {
+                        [-4, 4].forEach(by => {
+                            ctx.beginPath();
+                            ctx.arc(bx, by, 4.5, 0, Math.PI * 2);
+                            ctx.fill();
+                        });
+                    });
+                } else if (p.type === 'meteor') {
+                    // Meteoro de sangre y obsidiana
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rot || 0);
+                    ctx.fillStyle = "#EC4899";
+                    ctx.beginPath();
+                    ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = "#3B0764";
+                    ctx.beginPath();
+                    ctx.arc(0, 0, p.size * 0.65, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = "#FFD700";
+                    ctx.beginPath();
+                    ctx.arc(-p.size * 0.2, -p.size * 0.2, p.size * 0.25, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (p.type === 'ghost_orb') {
+                    // Esfera buscadora helada de La Llorona
+                    ctx.fillStyle = "#22D3EE";
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = "#FFFFFF";
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size * 1.25, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.fillStyle = "#ECFEFF";
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size * 0.45, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (p.type === 'wave') {
+                    // Ola de choque rasante
+                    ctx.fillStyle = pColor;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, Math.PI, 0, false);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.fillStyle = "#FFFFFF";
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y - 2, p.size * 0.5, Math.PI, 0, false);
+                    ctx.closePath();
+                    ctx.fill();
+                } else if (p.type === 'skull') {
+                    // Cráneo de obsidiana de Mictlantecuhtli
+                    ctx.translate(p.x, p.y);
+                    ctx.fillStyle = p.color || "#A855F7";
+                    ctx.beginPath();
+                    ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    // Ojos oscuros y dientes del cráneo
+                    ctx.fillStyle = "#1E1B4B";
+                    ctx.beginPath();
+                    ctx.arc(-p.size * 0.35, -p.size * 0.15, p.size * 0.22, 0, Math.PI * 2);
+                    ctx.arc(p.size * 0.35, -p.size * 0.15, p.size * 0.22, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillRect(-p.size * 0.4, p.size * 0.3, p.size * 0.8, 3);
+                } else if (p.type === 'fire') {
+                    // Llamarada rasante alargada
+                    ctx.fillStyle = p.color || "#FF3D00";
+                    ctx.beginPath();
+                    ctx.ellipse(p.x, p.y, p.size * 1.5, p.size * 0.8, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = "#FFD700";
+                    ctx.beginPath();
+                    ctx.ellipse(p.x - 3, p.y, p.size * 0.8, p.size * 0.4, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (p.type === 'tear') {
+                    // Lágrima espectral de La Llorona
+                    ctx.fillStyle = p.color || "#00F5FF";
+                    ctx.beginPath();
+                    ctx.ellipse(p.x, p.y, p.size * 1.3, p.size * 0.8, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = "#FFFFFF";
+                    ctx.beginPath();
+                    ctx.arc(p.x + 2, p.y - 1, p.size * 0.35, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (p.type === 'sky') {
+                    // Lluvia de almas / rayo del cielo
+                    ctx.fillStyle = p.color || "#E040FB";
+                    ctx.beginPath();
+                    ctx.ellipse(p.x, p.y, p.size * 0.7, p.size * 1.5, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = "#FFFFFF";
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size * 0.35, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    // Orbe mágico brillante por defecto
+                    ctx.fillStyle = pColor;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = "#FFFFFF";
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size * 0.4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
                 ctx.restore();
             });
 
@@ -2065,15 +2972,73 @@
             ctx.restore();
         }
 
-        function gameLoop() {
-            if (isGameStopped) return;
-            update();
+        // =======================================================
+        // CONTROL DE BUCLE DE TIEMPO FIJO (60 FPS NORMALIZADO)
+        // Soluciona la aceleración excesiva en dispositivos con pantallas
+        // de alta tasa de refresco (90Hz, 120Hz, 144Hz, 240Hz, etc.)
+        // =======================================================
+        const FIXED_TIMESTEP = 1000 / 60; // 16.666667 ms por tick de física
+        const MAX_DELTA_TIME = 100; // Máximo delta por fotograma (evita saltos bruscos tras pausas)
+
+        function gameLoop(timestamp) {
+            if (isGameStopped) {
+                gameLoopId = null;
+                return;
+            }
+
+            const now = (typeof timestamp === 'number' && timestamp > 0) ? timestamp : performance.now();
+            if (!lastFrameTime) {
+                lastFrameTime = now;
+            }
+
+            let delta = now - lastFrameTime;
+            lastFrameTime = now;
+
+            // Clamping para evitar saltos o congelamientos si la pestaña o app pasa a segundo plano
+            if (delta > MAX_DELTA_TIME) {
+                delta = MAX_DELTA_TIME;
+            } else if (delta < 0) {
+                delta = 0;
+            }
+
+            physicsAccumulator += delta;
+
+            // Procesar la física en pasos fijos de 60 FPS exactos independientemente del refresco de pantalla
+            let steps = 0;
+            while (physicsAccumulator >= FIXED_TIMESTEP && steps < 5) {
+                update();
+                physicsAccumulator -= FIXED_TIMESTEP;
+                steps++;
+            }
+
+            // Si quedó residuo excesivo tras una pausa o tirón puntual, descartar para mantener fluidez
+            if (physicsAccumulator >= FIXED_TIMESTEP) {
+                physicsAccumulator = 0;
+            }
+
             render();
             gameLoopId = requestAnimationFrame(gameLoop);
         }
 
+        // Restablecer acumulador de tiempo si la pantalla se apaga o la app cambia de foco
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                lastFrameTime = 0;
+                physicsAccumulator = 0;
+            } else {
+                lastFrameTime = performance.now();
+                physicsAccumulator = 0;
+            }
+        });
+
         window.onload = () => {
-            gameLoop();
+            if (gameLoopId) {
+                cancelAnimationFrame(gameLoopId);
+                gameLoopId = null;
+            }
+            lastFrameTime = 0;
+            physicsAccumulator = 0;
+            gameLoopId = requestAnimationFrame(gameLoop);
             resizeCanvas();
             const rBtn = document.getElementById('btn-game-return');
             if (rBtn) {
